@@ -1,0 +1,39 @@
+/* Agency landing page - global styles */
+:root {
+  --color-bg: #fafaf9;
+  --color-text: #1c1917;
+  --color-text-muted: #57534e;
+  --color-accent: #292524;
+  --color-accent-hover: #1c1917;
+  --color-border: #e7e5e4;
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Source Sans 3", system-ui, sans-serif;
+  --max-width: 72rem;
+  --spacing-section: 5rem;
+  --spacing-block: 2rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 1.25rem;
+  }
+}

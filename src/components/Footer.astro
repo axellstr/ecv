@@ -1,0 +1,82 @@
+---
+interface Props {
+  year?: number;
+}
+
+const { year = new Date().getFullYear() } = Astro.props;
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <nav class="footer__nav">
+      <a href="#contact" class="footer__link">Contact</a>
+      <a href="#" class="footer__link">Services</a>
+      <a href="#" class="footer__link">About</a>
+      <a href="#" class="footer__link">Privacy</a>
+      <a href="#" class="footer__link">Terms</a>
+    </nav>
+    <div class="footer__social">
+      <a href="#" class="footer__social-link" aria-label="LinkedIn">LinkedIn</a>
+      <a href="#" class="footer__social-link" aria-label="Twitter">Twitter</a>
+      <a href="#" class="footer__social-link" aria-label="Instagram">Instagram</a>
+    </div>
+    <p class="footer__copyright">© {year} Agency. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: var(--spacing-section) var(--spacing-block);
+    background-color: var(--color-accent);
+    color: #e7e5e4;
+  }
+
+  .footer__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .footer__link {
+    color: #e7e5e4;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .footer__link:hover {
+    color: white;
+  }
+
+  .footer__social {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .footer__social-link {
+    color: #a8a29e;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color 0.2s;
+  }
+
+  .footer__social-link:hover {
+    color: white;
+  }
+
+  .footer__copyright {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #a8a29e;
+  }
+</style>
