@@ -1,39 +1,148 @@
-/* Agency landing page - global styles */
+/* ─── Design System ────────────────────────────────────────────────────── */
+
 :root {
-  --color-bg: #fafaf9;
-  --color-text: #1c1917;
-  --color-text-muted: #57534e;
-  --color-accent: #292524;
-  --color-accent-hover: #1c1917;
-  --color-border: #e7e5e4;
-  --font-heading: "Playfair Display", Georgia, serif;
-  --font-body: "Source Sans 3", system-ui, sans-serif;
-  --max-width: 72rem;
-  --spacing-section: 5rem;
-  --spacing-block: 2rem;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
   scroll-behavior: smooth;
+  /* Fonts */
+  --font-sans: 'Lato', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+
+  /* Colors */
+  --c-bg: rgb(39, 39, 39);
+  --c-surface: rgb(6, 6, 6);
+  --c-border: rgb(60, 60, 60);
+  --c-text: #ffffff;
+  --c-text-muted: rgb(160, 160, 160);
+  --c-accent: rgb(255, 255, 255);
+  --bg-void: #000000;
+  --accent-primary: #FFD700;
+  --text-muted: var(--c-text-muted);
+
+  /* Spacing (4px base) */
+  --s-0: 0;
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.25rem;
+  --s-6: 1.5rem;
+  --s-8: 2rem;
+  --s-10: 2.5rem;
+  --s-12: 3rem;
+  --s-16: 4rem;
+
+  /* Typography */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+
+  /* Radius */
+  --r-sm: 0.25rem;
+  --r-md: 0.5rem;
+  --r-lg: 0.75rem;
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: var(--font-body);
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: var(--color-text);
-  background-color: var(--color-bg);
+  font-family: var(--font-sans);
+  background: var(--c-bg);
+  color: var(--c-text);
+  line-height: 1.5;
 }
 
-@media (min-width: 768px) {
-  body {
-    font-size: 1.25rem;
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
+
+main {
+  min-height: 100vh;
+}
+
+/* ─── Layout ───────────────────────────────────────────────────────────── */
+
+.flex { display: flex; }
+.grid { display: grid; }
+.block { display: block; }
+.inline { display: inline; }
+.hidden { display: none; }
+
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-start { align-items: flex-start; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-end { justify-content: flex-end; }
+.gap-1 { gap: var(--s-1); }
+.gap-2 { gap: var(--s-2); }
+.gap-4 { gap: var(--s-4); }
+.gap-6 { gap: var(--s-6); }
+.gap-8 { gap: var(--s-8); }
+
+.w-full { width: 100%; }
+.min-h-screen { min-height: 100vh; }
+
+/* ─── Spacing ──────────────────────────────────────────────────────────── */
+
+.p-2 { padding: var(--s-2); }
+.p-4 { padding: var(--s-4); }
+.p-6 { padding: var(--s-6); }
+.p-8 { padding: var(--s-8); }
+
+.m-0 { margin: 0; }
+.m-auto { margin: auto; }
+.mt-2 { margin-top: var(--s-2); }
+.mt-4 { margin-top: var(--s-4); }
+.mb-2 { margin-bottom: var(--s-2); }
+.mb-4 { margin-bottom: var(--s-4); }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* ─── Typography ───────────────────────────────────────────────────────── */
+
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+.text-2xl { font-size: var(--text-2xl); }
+.text-3xl { font-size: var(--text-3xl); }
+.text-4xl { font-size: var(--text-4xl); }
+
+.font-sans { font-family: var(--font-sans); }
+.font-heading { font-family: var(--font-heading); }
+
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.text-muted { color: var(--c-text-muted); }
+.leading-tight { line-height: 1.25; }
+.leading-normal { line-height: 1.5; }
+.leading-relaxed { line-height: 1.75; }
+
+/* ─── Max-width containers ─────────────────────────────────────────────── */
+
+.max-w-sm { max-width: 24rem; }
+.max-w-md { max-width: 28rem; }
+.max-w-lg { max-width: 32rem; }
+.max-w-xl { max-width: 36rem; }
+.max-w-2xl { max-width: 42rem; }
+.max-w-4xl { max-width: 56rem; }
+.max-w-6xl { max-width: 76rem; }

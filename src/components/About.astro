@@ -1,0 +1,148 @@
+---
+const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
+---
+
+<section id="about" class="about">
+  <div class="about__inner">
+    <h2 class="about__title">About ECV</h2>
+    <p class="about__description">
+      E-Compvenience is at the forefront of digital innovation, crafting exceptional experiences
+      that bridge physical and virtual worlds. We combine spatial technology with AI-powered
+      solutions to redefine navigation, heritage, and immersive environments.
+    </p>
+    <div class="about__carousel" aria-hidden="true">
+      <div class="about__carousel-track">
+        {[...partners, ...partners].map((src) => (
+          <div class="about__carousel-item">
+            <img src={src} alt="" loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    min-height: 100vh;
+    padding: var(--s-8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+    background-color: var(--c-surface);
+  }
+
+  @media (min-width: 769px) {
+    .about {
+      border-top-left-radius: 4em;
+      border-top-right-radius: 4em;
+    }
+  }
+
+  .about__inner {
+    width: 100%;
+    max-width: 42rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 769px) {
+    .about__inner {
+      max-width: 66rem;
+    }
+  }
+
+  .about__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 6vw, var(--text-4xl));
+    font-weight: 400;
+    margin: 0 0 var(--s-6);
+    color: var(--c-text);
+  }
+
+  @media (min-width: 769px) {
+    .about__title {
+      font-size: clamp(3.5rem, 7vw, 5rem);
+      margin-bottom: var(--s-8);
+    }
+  }
+
+  .about__description {
+    margin: 0;
+    font-size: var(--text-lg);
+    color: var(--c-text-muted);
+    line-height: 1.75;
+  }
+
+  @media (min-width: 769px) {
+    .about__description {
+      font-size: var(--text-xl);
+      line-height: 1.8;
+      color: var(--c-text);
+    }
+  }
+
+  .about__carousel {
+    margin-top: var(--s-12);
+    overflow: hidden;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
+
+  .about__carousel-track {
+    display: flex;
+    gap: var(--s-6);
+    width: max-content;
+    animation: about-carousel 30s linear infinite;
+  }
+
+  .about__carousel-item {
+    flex-shrink: 0;
+    width: 5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .about__carousel-item:hover {
+    opacity: 1;
+  }
+
+  .about__carousel-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: grayscale(0.3);
+  }
+
+  .about__carousel-item:hover img {
+    filter: grayscale(0);
+  }
+
+  @keyframes about-carousel {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

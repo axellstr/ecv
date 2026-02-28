@@ -1,120 +1,155 @@
 ---
-interface Props {
-  headline?: string;
-  subheadline?: string;
-  primaryCta?: string;
-  primaryCtaHref?: string;
-  secondaryCta?: string;
-  secondaryCtaHref?: string;
-}
-
-const {
-  headline = "We create brands and experiences that resonate.",
-  subheadline = "A full-service agency focused on strategy, design, and execution.",
-  primaryCta = "Get in touch",
-  primaryCtaHref = "#contact",
-  secondaryCta = "View our work",
-  secondaryCtaHref = "#",
-} = Astro.props;
 ---
 
 <section class="hero">
-  <div class="hero__inner">
-    <h1 class="hero__headline">{headline}</h1>
-    <p class="hero__subheadline">{subheadline}</p>
-    <div class="hero__ctas">
-      <a href={primaryCtaHref} class="hero__cta hero__cta--primary">{primaryCta}</a>
-      <a href={secondaryCtaHref} class="hero__cta hero__cta--secondary">{secondaryCta}</a>
+  <!-- Full-bleed visual on desktop -->
+  <div class="hero__visual">
+    <div class="hero__placeholder"></div>
+  </div>
+  <div class="hero__content">
+    <p class="hero__eyebrow">The Future of Digital Experiences</p>
+    <h1 class="hero__title">
+      Redefining Navigation, Heritage and Virtual Spaces with AI-Powered Innovation.
+    </h1>
+    <div class="hero__actions">
+      <a href="#work" class="hero__btn hero__btn--primary">Explore Solutions</a>
+      <a href="#contact" class="hero__btn hero__btn--secondary">Get in Touch</a>
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    min-height: 80vh;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  @media (min-width: 769px) {
+    .hero {
+      overflow: hidden;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  /* Desktop: visual fills hero, content sits bottom-right */
+  .hero__visual {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__placeholder {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-section) var(--spacing-block);
-    background: linear-gradient(180deg, var(--color-bg) 0%, #f5f5f4 100%);
   }
 
-  .hero__inner {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    text-align: center;
+  .hero__placeholder::after {
+    content: '[3D / visual placeholder]';
+    font-size: var(--text-sm);
+    color: var(--c-text-muted);
+    font-family: var(--font-sans);
   }
 
-  .hero__headline {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0 0 var(--spacing-block);
-    color: var(--color-text);
-  }
-
-  @media (min-width: 768px) {
-    .hero__headline {
-      font-size: 3.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .hero__headline {
-      font-size: 4rem;
-    }
-  }
-
-  .hero__subheadline {
-    font-size: 1.125rem;
-    color: var(--color-text-muted);
-    max-width: 36rem;
-    margin: 0 auto var(--spacing-block);
-  }
-
-  @media (min-width: 768px) {
-    .hero__subheadline {
-      font-size: 1.25rem;
-    }
-  }
-
-  .hero__ctas {
+  .hero__content {
+    position: absolute;
+    bottom: var(--s-8);
+    right: var(--s-8);
+    z-index: 1;
     display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+    max-width: 66rem;
+    text-align: right;
+  }
+
+  @media (max-width: 768px) {
+    .hero__visual {
+      position: relative;
+      min-height: 18rem;
+    }
+
+    .hero__placeholder {
+      min-height: 18rem;
+      border: 1px dashed var(--c-border);
+      border-radius: var(--r-lg);
+    }
+
+    .hero__content {
+      position: relative;
+      bottom: auto;
+      right: auto;
+      padding: var(--s-8);
+      max-width: none;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  .hero__eyebrow {
+    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--c-text-muted);
+  }
+
+  .hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-3xl), 5vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--c-text);
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: var(--s-4);
     flex-wrap: wrap;
-    gap: 1rem;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 768px) {
+    .hero__actions {
+      justify-content: center;
+    }
+  }
+
+  .hero__btn {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    margin-top: 2rem;
-  }
-
-  .hero__cta {
-    display: inline-block;
-    padding: 1rem 2rem;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    font-weight: 600;
+    padding: var(--s-3) var(--s-6);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 500;
     text-decoration: none;
-    border-radius: 0.25rem;
-    transition: background-color 0.2s, color 0.2s;
+    border-radius: var(--r-md);
+    transition: opacity 0.2s, background 0.2s;
   }
 
-  .hero__cta--primary {
-    background-color: var(--color-accent);
-    color: white;
+  .hero__btn:hover {
+    opacity: 0.9;
   }
 
-  .hero__cta--primary:hover {
-    background-color: var(--color-accent-hover);
+  .hero__btn--primary {
+    background: var(--c-accent);
+    color: var(--c-bg);
   }
 
-  .hero__cta--secondary {
-    background-color: transparent;
-    color: var(--color-text);
-    border: 2px solid var(--color-border);
-  }
-
-  .hero__cta--secondary:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
+  .hero__btn--secondary {
+    background: var(--c-surface);
+    color: var(--c-text);
+    border: 1px solid var(--c-border);
   }
 </style>

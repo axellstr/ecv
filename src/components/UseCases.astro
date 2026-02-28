@@ -1,0 +1,128 @@
+---
+const useCases = [
+  {
+    title: 'Infrastructure & Smart Cities',
+    description: 'Digital twins for urban planning, traffic simulation, and infrastructure monitoring.',
+  },
+  {
+    title: 'Cultural Heritage',
+    description: 'Capture, document, and preserve heritage sites with high-fidelity 3D models.',
+  },
+  {
+    title: 'Real Estate & Development',
+    description: 'AR/VR property tours, development visualisation, and stakeholder presentations.',
+  },
+  {
+    title: 'Industrial & Facilities',
+    description: 'Asset management, predictive maintenance, and IoT-augmented facility twins.',
+  },
+];
+---
+
+<section id="use-cases" class="use-cases">
+  <div class="use-cases__inner">
+    <h2 class="use-cases__title">Use Cases</h2>
+    <p class="use-cases__description">
+      Our solutions span industries—from smart cities and heritage preservation to real estate
+      and industrial facilities. Discover how digital twins and spatial tech can transform your domain.
+    </p>
+    <ul class="use-cases__list" role="list">
+      {useCases.map((useCase) => (
+        <li class="use-cases__item">
+          <h3 class="use-cases__item-title">{useCase.title}</h3>
+          <p class="use-cases__item-desc">{useCase.description}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .use-cases {
+    min-height: 100vh;
+    padding: var(--s-8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .use-cases__inner {
+    max-width: 42rem;
+    text-align: center;
+  }
+
+  @media (min-width: 769px) {
+    .use-cases__inner {
+      max-width: 66rem;
+      text-align: left;
+    }
+  }
+
+  .use-cases__title {
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
+    font-weight: 400;
+    margin: 0 0 var(--s-6);
+    color: var(--c-text);
+  }
+
+  @media (min-width: 769px) {
+    .use-cases__title {
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      margin-bottom: var(--s-8);
+    }
+  }
+
+  .use-cases__description {
+    margin: 0 0 var(--s-10);
+    font-size: var(--text-lg);
+    color: var(--c-text-muted);
+    line-height: 1.75;
+  }
+
+  @media (min-width: 769px) {
+    .use-cases__description {
+      font-size: var(--text-xl);
+      line-height: 1.8;
+      color: var(--c-text);
+      margin-bottom: var(--s-12);
+    }
+  }
+
+  .use-cases__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  @media (min-width: 769px) {
+    .use-cases__list {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-8);
+    }
+  }
+
+  .use-cases__item {
+    padding: var(--s-6);
+    background: var(--c-surface);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--c-border);
+  }
+
+  .use-cases__item-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    margin: 0 0 var(--s-3);
+    color: var(--c-text);
+  }
+
+  .use-cases__item-desc {
+    margin: 0;
+    font-size: var(--text-base);
+    color: var(--c-text-muted);
+    line-height: 1.6;
+  }
+</style>

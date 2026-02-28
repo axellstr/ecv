@@ -1,82 +1,110 @@
 ---
-interface Props {
-  year?: number;
-}
-
-const { year = new Date().getFullYear() } = Astro.props;
 ---
 
 <footer class="footer">
   <div class="footer__inner">
-    <nav class="footer__nav">
-      <a href="#contact" class="footer__link">Contact</a>
-      <a href="#" class="footer__link">Services</a>
-      <a href="#" class="footer__link">About</a>
-      <a href="#" class="footer__link">Privacy</a>
-      <a href="#" class="footer__link">Terms</a>
-    </nav>
-    <div class="footer__social">
-      <a href="#" class="footer__social-link" aria-label="LinkedIn">LinkedIn</a>
-      <a href="#" class="footer__social-link" aria-label="Twitter">Twitter</a>
-      <a href="#" class="footer__social-link" aria-label="Instagram">Instagram</a>
+    <div class="footer__brand">
+      <a href="#" class="footer__logo-link" aria-label="E-Compvenience home">
+        <img src="/ecv.svg" alt="E-Compvenience" class="footer__logo" width="108" height="36" />
+      </a>
+      <p class="footer__tagline">Spatial technology & digital twins</p>
     </div>
-    <p class="footer__copyright">© {year} Agency. All rights reserved.</p>
+    <nav class="footer__nav" aria-label="Footer navigation">
+      <a href="#about" class="footer__link">About</a>
+      <a href="#services" class="footer__link">Services</a>
+      <a href="#digital-twins" class="footer__link">Digital Twins</a>
+      <a href="#interactive-model" class="footer__link">Interactive Model</a>
+      <a href="#use-cases" class="footer__link">Use Cases</a>
+      <a href="#contact" class="footer__link">Contact</a>
+    </nav>
+    <p class="footer__copy">© {new Date().getFullYear()} E-Compvenience. All rights reserved.</p>
   </div>
 </footer>
 
 <style>
   .footer {
-    padding: var(--spacing-section) var(--spacing-block);
-    background-color: var(--color-accent);
-    color: #e7e5e4;
+    padding: var(--s-12) var(--s-8);
+    background: var(--c-surface);
+    border-top: 1px solid var(--c-border);
   }
 
   .footer__inner {
-    max-width: var(--max-width);
+    max-width: 66rem;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-8);
     text-align: center;
+  }
+
+  @media (min-width: 769px) {
+    .footer__inner {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  .footer__brand {
+    flex-shrink: 0;
+  }
+
+  .footer__logo-link {
+    display: block;
+  }
+
+  .footer__logo {
+    display: block;
+    height: 2rem;
+    width: auto;
+  }
+
+  .footer__tagline {
+    margin: var(--s-2) 0 0;
+    font-size: var(--text-sm);
+    color: var(--c-text-muted);
   }
 
   .footer__nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: var(--s-4);
     justify-content: center;
-    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 769px) {
+    .footer__nav {
+      justify-content: flex-start;
+    }
   }
 
   .footer__link {
-    color: #e7e5e4;
+    font-size: var(--text-sm);
+    color: var(--c-text-muted);
     text-decoration: none;
-    font-weight: 500;
     transition: color 0.2s;
   }
 
   .footer__link:hover {
-    color: white;
+    color: var(--accent-primary);
   }
 
-  .footer__social {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-
-  .footer__social-link {
-    color: #a8a29e;
-    text-decoration: none;
-    font-size: 0.9375rem;
-    transition: color 0.2s;
-  }
-
-  .footer__social-link:hover {
-    color: white;
-  }
-
-  .footer__copyright {
+  .footer__copy {
     margin: 0;
-    font-size: 0.875rem;
-    color: #a8a29e;
+    font-size: var(--text-sm);
+    color: var(--c-text-muted);
+    width: 100%;
+  }
+
+  @media (min-width: 769px) {
+    .footer__copy {
+      width: auto;
+      order: 3;
+      flex-basis: 100%;
+      margin-top: var(--s-2);
+    }
   }
 </style>

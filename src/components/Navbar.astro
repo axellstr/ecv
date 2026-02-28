@@ -1,0 +1,392 @@
+---
+---
+<nav class="navbar" aria-label="Main navigation">
+  <!-- Desktop: logo + nav list -->
+  <div class="navbar__brand navbar__brand--desktop">
+    <a href="#" class="navbar__logo-link" aria-label="E-Compvenience home">
+      <img src="/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
+    </a>
+  </div>
+  <ul class="navbar__list navbar__list--desktop" role="list">
+    <li><a href="#about" class="navbar__link" data-section="about">About ECV</a></li>
+    <li><a href="#services" class="navbar__link" data-section="services">Services</a></li>
+    <li><a href="#digital-twins" class="navbar__link" data-section="digital-twins">Digital Twins</a></li>
+    <li><a href="#interactive-model" class="navbar__link" data-section="interactive-model">Interactive Model</a></li>
+    <li><a href="#use-cases" class="navbar__link" data-section="use-cases">Use Cases</a></li>
+    <li><a href="#contact" class="navbar__link" data-section="contact">Contact</a></li>
+  </ul>
+
+  <!-- Mobile: hamburger button -->
+  <button
+    type="button"
+    class="navbar__hamburger"
+    aria-label="Toggle menu"
+    aria-expanded="false"
+    aria-controls="navbar-overlay"
+  >
+    <span class="navbar__hamburger-line"></span>
+    <span class="navbar__hamburger-line"></span>
+    <span class="navbar__hamburger-line"></span>
+  </button>
+
+  <!-- Mobile: full-screen overlay -->
+  <div id="navbar-overlay" class="navbar__overlay" aria-hidden="true">
+    <a href="#" class="navbar__brand navbar__brand--mobile" aria-label="E-Compvenience home">
+      <img src="/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
+    </a>
+    <ul class="navbar__list navbar__list--mobile" role="list">
+      <li><a href="#services" class="navbar__link" data-section="services">Services</a></li>
+      <li><a href="#about" class="navbar__link" data-section="about">About ECV</a></li>
+      <li><a href="#digital-twins" class="navbar__link" data-section="digital-twins">Digital Twins</a></li>
+      <li><a href="#interactive-model" class="navbar__link" data-section="interactive-model">Interactive Model</a></li>
+      <li><a href="#use-cases" class="navbar__link" data-section="use-cases">Use Cases</a></li>
+      <li><a href="#contact" class="navbar__link" data-section="contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+  /* Variable fallbacks for Dark Mode Spatial Tech theme */
+  .navbar {
+    --bg-void: var(--bg-void, #000000);
+    --accent-primary: var(--accent-primary, #FFD700);
+    --text-muted: var(--text-muted, var(--c-text-muted, #888888));
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  .navbar__list,
+  .navbar__hamburger,
+  .navbar__brand {
+    pointer-events: auto;
+  }
+
+  .navbar__brand--desktop {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    margin-bottom: var(--s-4);
+  }
+
+  .navbar__list--desktop {
+    top: 6rem;
+  }
+
+  .navbar__logo-link,
+  .navbar__brand--mobile {
+    display: block;
+  }
+
+  .navbar__logo {
+    display: block;
+    height: 2rem;
+    width: auto;
+  }
+
+  .navbar__brand--mobile {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+
+  .navbar__brand--mobile .navbar__logo {
+    height: 1.75rem;
+  }
+
+  /* Desktop nav list - top-left, below logo */
+  .navbar__list--desktop {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    position: fixed;
+    top: 6rem;
+    left: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar__link {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #666666;
+    padding-left: var(--s-4);
+    border-left: 3px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .navbar__link:not(.active):hover {
+    color: #888888;
+  }
+
+  .navbar__link.active {
+    color: #FFFFFF;
+    border-left-color: var(--accent-primary);
+  }
+
+  /* Mobile: hide desktop nav and brand */
+  @media (max-width: 768px) {
+    .navbar__list--desktop,
+    .navbar__brand--desktop {
+      display: none !important;
+    }
+  }
+
+  /* Mobile: hamburger - top right */
+  .navbar__hamburger {
+    display: none;
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 44px;
+    min-height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    z-index: 1002;
+    transition: opacity 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .navbar__hamburger:hover,
+  .navbar__hamburger:focus {
+    opacity: 0.9;
+    outline: none;
+  }
+
+  .navbar__hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+  }
+
+  /* Hamburger to X: lines 1 and 3 rotate to center and form X */
+  .navbar__hamburger[aria-expanded="true"] .navbar__hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .navbar__hamburger[aria-expanded="true"] .navbar__hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .navbar__hamburger[aria-expanded="true"] .navbar__hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+    .navbar__hamburger {
+      display: flex;
+    }
+  }
+
+  /* Mobile overlay - full-screen pure black */
+  .navbar__overlay {
+    position: fixed;
+    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100dvh;
+    background: #000000;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .navbar__overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Hide overlay completely on desktop */
+  @media (min-width: 769px) {
+    .navbar__overlay {
+      display: none !important;
+    }
+  }
+
+  .navbar__list--mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 5rem 2rem 2rem;
+  }
+
+  .navbar__list--mobile .navbar__link {
+    font-size: 1.25rem;
+    padding: 0.75rem 1rem;
+    padding-left: 0;
+    border-left: none;
+    color: #666666;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .navbar__list--mobile .navbar__link:not(.active):hover {
+    color: #888888;
+  }
+
+  .navbar__list--mobile .navbar__link.active {
+    border-left: none;
+    color: #FFFFFF;
+  }
+
+  .navbar__list--mobile .navbar__link.active::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    min-width: 8px;
+    min-height: 8px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('navbar-overlay');
+    const hamburger = document.querySelector('.navbar__hamburger');
+    const links = document.querySelectorAll('.navbar__link');
+
+    // Mobile menu toggle
+    if (hamburger && overlay) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', String(!isOpen));
+        overlay.classList.toggle('is-open', !isOpen);
+        overlay.setAttribute('aria-hidden', String(isOpen));
+        document.body.style.overflow = isOpen ? '' : 'hidden';
+      });
+
+      const closeOverlay = () => {
+        hamburger.setAttribute('aria-expanded', 'false');
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      // Close overlay when clicking a link or logo (mobile)
+      links.forEach((link) => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 768) closeOverlay();
+        });
+      });
+      const mobileLogo = document.querySelector('.navbar__brand--mobile');
+      if (mobileLogo) {
+        mobileLogo.addEventListener('click', () => {
+          if (window.innerWidth <= 768) closeOverlay();
+        });
+      }
+
+      // Close overlay when clicking backdrop
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay && window.innerWidth <= 768) closeOverlay();
+      });
+
+      // Close overlay on resize to desktop
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && overlay.classList.contains('is-open')) closeOverlay();
+      });
+    }
+
+    // Intersection Observer for scrollspy
+    const sections = ['services', 'about', 'digital-twins', 'interactive-model', 'use-cases', 'contact'];
+    const sectionElements = sections
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el != null);
+
+    if (sectionElements.length === 0) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-40% 0px -40% 0px',
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          links.forEach((link) => {
+            if (link.getAttribute('data-section') === id) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    sectionElements.forEach((el) => observer.observe(el));
+
+    // Initial active state: if no section is in view, check first section
+    const checkInitialActive = () => {
+      const rects = sectionElements.map((el) => el.getBoundingClientRect());
+      const viewportHeight = window.innerHeight;
+      let found = false;
+      sectionElements.forEach((el: HTMLElement, i: number) => {
+        const rect = rects[i];
+        const inView = rect.top < viewportHeight * 0.6 && rect.bottom > viewportHeight * 0.4;
+        if (inView && !found) {
+          const id = el.id;
+          links.forEach((link) => {
+            link.classList.toggle('active', link.getAttribute('data-section') === id);
+          });
+          found = true;
+        }
+      });
+      if (!found) {
+        links.forEach((link) => link.classList.remove('active'));
+      }
+    };
+
+    checkInitialActive();
+  });
+</script>

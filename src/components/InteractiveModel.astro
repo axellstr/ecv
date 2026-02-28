@@ -1,0 +1,80 @@
+---
+---
+
+<section id="interactive-model" class="interactive-model">
+  <div class="interactive-model__inner">
+    <h2 class="interactive-model__title">Interactive Model</h2>
+    <p class="interactive-model__description">
+      Explore our 3D models directly in your browser. Rotate, zoom, and inspect every detail—
+      from geospatial environments to architectural assets.
+    </p>
+    <div class="interactive-model__placeholder">
+      <img src="/model.png" alt="3D model preview" class="interactive-model__img" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .interactive-model {
+    min-height: 100vh;
+    padding: var(--s-8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .interactive-model__inner {
+    max-width: 42rem;
+    text-align: center;
+  }
+
+  @media (min-width: 769px) {
+    .interactive-model__inner {
+      max-width: 66rem;
+      text-align: left;
+    }
+  }
+
+  .interactive-model__title {
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
+    font-weight: 400;
+    margin: 0 0 var(--s-6);
+    color: var(--c-text);
+  }
+
+  @media (min-width: 769px) {
+    .interactive-model__title {
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      margin-bottom: var(--s-8);
+    }
+  }
+
+  .interactive-model__description {
+    margin: 0 0 var(--s-10);
+    font-size: var(--text-lg);
+    color: var(--c-text-muted);
+    line-height: 1.75;
+  }
+
+  @media (min-width: 769px) {
+    .interactive-model__description {
+      font-size: var(--text-xl);
+      line-height: 1.8;
+      color: var(--c-text);
+    }
+  }
+
+  .interactive-model__placeholder {
+    margin-top: var(--s-8);
+    border-radius: var(--s-2);
+    overflow: hidden;
+  }
+
+  .interactive-model__img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+</style>

@@ -1,0 +1,133 @@
+---
+---
+
+<section id="digital-twins" class="digital-twins">
+  <div class="digital-twins__inner">
+    <h2 class="digital-twins__title">Digital Twins</h2>
+    <p class="digital-twins__description">
+      Digital twins are high-fidelity virtual replicas of physical assets, spaces, or systems. Built from laser scanning,
+      photogrammetry, and IoT data, they enable real-time monitoring, simulation, and predictive analytics—
+      transforming how organisations manage infrastructure, heritage sites, and urban environments.
+    </p>
+    <div class="digital-twins__features">
+      <div class="digital-twins__feature">
+        <h3 class="digital-twins__feature-title">Real-time sync</h3>
+        <p class="digital-twins__feature-desc">Live data streams from sensors and devices keep your twin in lockstep with the physical world.</p>
+      </div>
+      <div class="digital-twins__feature">
+        <h3 class="digital-twins__feature-title">Simulation-ready</h3>
+        <p class="digital-twins__feature-desc">Run crowd, traffic, weather, and lighting simulations to test scenarios before they happen.</p>
+      </div>
+    </div>
+    <div class="digital-twins__visual">
+      <video
+        class="digital-twins__video"
+        src="/vide.mp4"
+        autoplay
+        muted
+        playsinline
+        loop
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .digital-twins {
+    min-height: 100vh;
+    padding: var(--s-8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .digital-twins__inner {
+    max-width: 42rem;
+    text-align: center;
+  }
+
+  @media (min-width: 769px) {
+    .digital-twins__inner {
+      max-width: 66rem;
+      text-align: left;
+    }
+  }
+
+  .digital-twins__title {
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
+    font-weight: 400;
+    margin: 0 0 var(--s-6);
+    color: var(--c-text);
+  }
+
+  @media (min-width: 769px) {
+    .digital-twins__title {
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      margin-bottom: var(--s-8);
+    }
+  }
+
+  .digital-twins__description {
+    margin: 0 0 var(--s-10);
+    font-size: var(--text-lg);
+    color: var(--c-text-muted);
+    line-height: 1.75;
+  }
+
+  @media (min-width: 769px) {
+    .digital-twins__description {
+      font-size: var(--text-xl);
+      line-height: 1.8;
+      color: var(--c-text);
+    }
+  }
+
+  .digital-twins__features {
+    display: grid;
+    gap: var(--s-6);
+    margin-bottom: var(--s-10);
+  }
+
+  @media (min-width: 769px) {
+    .digital-twins__features {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-8);
+      margin-bottom: var(--s-12);
+    }
+  }
+
+  .digital-twins__feature {
+    padding: var(--s-5);
+    background: var(--c-surface);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--c-border);
+  }
+
+  .digital-twins__feature-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    margin: 0 0 var(--s-2);
+    color: var(--c-text);
+  }
+
+  .digital-twins__feature-desc {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--c-text-muted);
+    line-height: 1.6;
+  }
+
+  .digital-twins__visual {
+    margin-top: var(--s-8);
+  }
+
+  .digital-twins__video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--c-border);
+  }
+</style>

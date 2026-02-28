@@ -1,88 +1,425 @@
 ---
-interface Props {
-  heading?: string;
-  description?: string;
-  email?: string;
-  phone?: string;
-}
-
-const {
-  heading = "Let's work together",
-  description = "Ready to start your project? Reach out and we'll get back to you within 24 hours.",
-  email = "hello@agency.com",
-  phone = "+1 (555) 123-4567",
-} = Astro.props;
 ---
 
 <section id="contact" class="contact">
   <div class="contact__inner">
-    <h2 class="contact__heading">{heading}</h2>
-    <p class="contact__description">{description}</p>
-    <div class="contact__links">
-      <a href={`mailto:${email}`} class="contact__link">Email: {email}</a>
-      <a href={`tel:${phone.replace(/[\s\-\(\)]/g, '')}`} class="contact__link">Phone: {phone}</a>
+    <header class="contact__header">
+      <h2 class="contact__title">Get in touch</h2>
+      <p class="contact__description">
+        Ready to bring spatial technology and digital twins to your project? Tell us about your
+        goals and we'll respond within 24 hours.
+      </p>
+    </header>
+
+    <div class="contact__content">
+      <aside class="contact__info">
+        <div class="contact__info-block">
+          <h3 class="contact__info-title">Email</h3>
+          <a href="mailto:info@e-compvenience.com" class="contact__info-link">
+            info@e-compvenience.com
+          </a>
+        </div>
+        <div class="contact__info-block">
+          <h3 class="contact__info-title">Response time</h3>
+          <p class="contact__info-text">We typically reply within 24 business hours.</p>
+        </div>
+        <div class="contact__info-block">
+          <h3 class="contact__info-title">Office</h3>
+          <p class="contact__info-text">Nicosia, Cyprus</p>
+        </div>
+      </aside>
+
+      <form class="contact__form" action="#" method="post" id="contact-form">
+        <div class="contact__form-grid">
+          <div class="contact__field">
+            <label for="contact-name" class="contact__label">Full name</label>
+            <input
+              type="text"
+              id="contact-name"
+              name="name"
+              class="contact__input"
+              required
+              autocomplete="name"
+              placeholder="John Smith"
+            />
+          </div>
+          <div class="contact__field">
+            <label for="contact-email" class="contact__label">Email address</label>
+            <input
+              type="email"
+              id="contact-email"
+              name="email"
+              class="contact__input"
+              required
+              autocomplete="email"
+              placeholder="john@company.com"
+            />
+          </div>
+        </div>
+
+        <div class="contact__form-grid">
+          <div class="contact__field">
+            <label for="contact-company" class="contact__label">
+              Company <span class="contact__optional">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="contact-company"
+              name="company"
+              class="contact__input"
+              autocomplete="organization"
+              placeholder="Your company or organization"
+            />
+          </div>
+          <div class="contact__field">
+            <label for="contact-phone" class="contact__label">
+              Phone <span class="contact__optional">(optional)</span>
+            </label>
+            <input
+              type="tel"
+              id="contact-phone"
+              name="phone"
+              class="contact__input"
+              autocomplete="tel"
+              placeholder="+357 99 123 456"
+            />
+          </div>
+        </div>
+
+        <div class="contact__field">
+          <label for="contact-subject" class="contact__label">How can we help?</label>
+          <select
+            id="contact-subject"
+            name="subject"
+            class="contact__input contact__select"
+            required
+          >
+            <option value="" disabled selected>Select an option</option>
+            <option value="digital-twins">Digital Twin Development</option>
+            <option value="3d-modelling">3D Modelling & Visualization</option>
+            <option value="virtual-spaces">Virtual & Immersive Spaces</option>
+            <option value="consulting">Consulting & Advisory</option>
+            <option value="partnership">Partnership Opportunities</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="contact__field">
+          <label for="contact-message" class="contact__label">Message</label>
+          <textarea
+            id="contact-message"
+            name="message"
+            class="contact__input contact__textarea"
+            rows="5"
+            required
+            placeholder="Tell us about your project, timeline, and what you're hoping to achieve..."
+          ></textarea>
+          <span class="contact__hint">The more detail you provide, the better we can assist you.</span>
+        </div>
+
+        <div class="contact__actions">
+          <button type="submit" class="contact__submit">
+            <span class="contact__submit-text">Send message</span>
+            <span class="contact__submit-loader" aria-hidden="true"></span>
+          </button>
+          <p class="contact__privacy">
+            By submitting, you agree to our privacy policy. We never share your data.
+          </p>
+        </div>
+      </form>
     </div>
   </div>
 </section>
 
 <style>
   .contact {
-    padding: var(--spacing-section) var(--spacing-block);
-    background-color: var(--color-bg);
-    border-top: 1px solid var(--color-border);
+    min-height: 100vh;
+    padding: var(--s-8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .contact__inner {
-    max-width: var(--max-width);
-    margin: 0 auto;
+    max-width: 42rem;
+  }
+
+  @media (min-width: 769px) {
+    .contact__inner {
+      max-width: 72rem;
+    }
+  }
+
+  .contact__header {
     text-align: center;
   }
 
-  .contact__heading {
-    font-family: var(--font-heading);
-    font-size: 2rem;
-    font-weight: 600;
-    margin: 0 0 var(--spacing-block);
-    color: var(--color-text);
+  @media (min-width: 769px) {
+    .contact__header {
+      text-align: left;
+    }
   }
 
-  @media (min-width: 768px) {
-    .contact__heading {
-      font-size: 2.5rem;
+  .contact__title {
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
+    font-weight: 400;
+    margin: 0 0 var(--s-6);
+    color: var(--c-text);
+  }
+
+  @media (min-width: 769px) {
+    .contact__title {
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      margin-bottom: var(--s-8);
     }
   }
 
   .contact__description {
-    color: var(--color-text-muted);
-    margin: 0 0 2rem;
-    max-width: 32rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 0 var(--s-10);
+    font-size: var(--text-lg);
+    color: var(--c-text-muted);
+    line-height: 1.75;
   }
 
-  .contact__links {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  @media (min-width: 640px) {
-    .contact__links {
-      flex-direction: row;
-      justify-content: center;
+  @media (min-width: 769px) {
+    .contact__description {
+      font-size: var(--text-xl);
+      line-height: 1.8;
+      color: var(--c-text);
+      margin-bottom: var(--s-12);
     }
   }
 
-  .contact__link {
-    color: var(--color-accent);
+  .contact__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-10);
+  }
+
+  @media (min-width: 769px) {
+    .contact__content {
+      flex-direction: row;
+      gap: var(--s-16);
+      align-items: flex-start;
+    }
+  }
+
+  /* Info sidebar */
+  .contact__info {
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 769px) {
+    .contact__info {
+      width: 16rem;
+      position: sticky;
+      top: var(--s-8);
+    }
+  }
+
+  .contact__info-block {
+    margin-bottom: var(--s-6);
+  }
+
+  .contact__info-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact__info-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-text-muted);
+    margin: 0 0 var(--s-2);
+  }
+
+  .contact__info-link {
+    font-size: var(--text-base);
+    color: var(--c-text);
     text-decoration: none;
     transition: color 0.2s;
   }
 
-  .contact__link:hover {
-    color: var(--color-accent-hover);
-    text-decoration: underline;
+  .contact__info-link:hover {
+    color: var(--c-text-muted);
+  }
+
+  .contact__info-text {
+    margin: 0;
+    font-size: var(--text-base);
+    color: var(--c-text-muted);
+    line-height: 1.6;
+  }
+
+  /* Form */
+  .contact__form {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+  }
+
+  @media (min-width: 769px) {
+    .contact__form {
+      max-width: 36rem;
+    }
+  }
+
+  .contact__form-grid {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  @media (min-width: 640px) {
+    .contact__form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contact__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .contact__label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--c-text);
+  }
+
+  .contact__optional {
+    font-weight: 400;
+    color: var(--c-text-muted);
+  }
+
+  .contact__input {
+    padding: var(--s-3) var(--s-4);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--c-text);
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-md);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .contact__input::placeholder {
+    color: var(--c-text-muted);
+    opacity: 0.8;
+  }
+
+  .contact__input:hover:not(:disabled) {
+    border-color: rgb(90, 90, 90);
+  }
+
+  .contact__input:focus {
+    outline: none;
+    border-color: var(--c-text-muted);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  }
+
+  .contact__input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .contact__select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--s-4) center;
+    padding-right: 2.5rem;
+  }
+
+  .contact__textarea {
+    resize: vertical;
+    min-height: 10rem;
+  }
+
+  .contact__hint {
+    font-size: var(--text-xs);
+    color: var(--c-text-muted);
+    margin-top: var(--s-1);
+  }
+
+  /* Submit area */
+  .contact__actions {
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--s-2);
+    gap: var(--s-3);
+  }
+
+  .contact__submit {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--s-4) var(--s-8);
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--c-bg);
+    background: var(--c-text);
+    border: none;
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    min-height: 3rem;
+  }
+
+  .contact__submit:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  .contact__submit:active:not(:disabled) {
+    transform: scale(0.99);
+  }
+
+  .contact__submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  .contact__submit-text {
+    transition: opacity 0.2s;
+  }
+
+  .contact__submit-loader {
+    position: absolute;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid rgba(39, 39, 39, 0.3);
+    border-top-color: var(--c-bg);
+    border-radius: 50%;
+    animation: contact-spin 0.8s linear infinite;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .contact__form.is-loading .contact__submit-text {
+    opacity: 0;
+  }
+
+  .contact__form.is-loading .contact__submit-loader {
+    opacity: 1;
+  }
+
+  @keyframes contact-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .contact__privacy {
+    font-size: var(--text-xs);
+    color: var(--c-text-muted);
+    margin: 0;
+    line-height: 1.5;
   }
 </style>
