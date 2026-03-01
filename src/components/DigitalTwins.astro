@@ -43,7 +43,8 @@
 
   .digital-twins__inner {
     max-width: 42rem;
-    text-align: center;
+    text-align: left;
+    width: 100%;
   }
 
   @media (min-width: 769px) {
@@ -129,5 +130,11 @@
     object-fit: cover;
     border-radius: var(--r-lg);
     border: 1px solid var(--c-border);
+  }
+
+  @media (max-width: 768px) {
+    .digital-twins__video {
+      aspect-ratio: 4 / 3;
+    }
   }
 </style>

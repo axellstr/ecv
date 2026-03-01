@@ -138,10 +138,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+    background-color: var(--c-surface);
+  }
+
+  @media (min-width: 769px) {
+    .contact {
+      border-top-left-radius: 4em;
+      border-top-right-radius: 4em;
+    }
   }
 
   .contact__inner {
-    max-width: 42rem;
+    max-width: 62rem;
   }
 
   @media (min-width: 769px) {
@@ -264,6 +274,7 @@
   }
 
   @media (min-width: 769px) {
+
     .contact__form {
       max-width: 36rem;
     }

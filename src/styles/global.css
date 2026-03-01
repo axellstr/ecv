@@ -7,14 +7,14 @@
   --font-heading: 'Space Grotesk', sans-serif;
 
   /* Colors */
-  --c-bg: rgb(39, 39, 39);
-  --c-surface: rgb(6, 6, 6);
+  --c-bg: rgb(23, 23, 23);
+  --c-surface: rgb(27, 27, 27);
   --c-border: rgb(60, 60, 60);
   --c-text: #ffffff;
   --c-text-muted: rgb(160, 160, 160);
   --c-accent: rgb(255, 255, 255);
   --bg-void: #000000;
-  --accent-primary: #FFD700;
+  --accent-primary: #d9ff00;
   --text-muted: var(--c-text-muted);
 
   /* Spacing (4px base) */

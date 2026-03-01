@@ -10,14 +10,17 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
       that bridge physical and virtual worlds. We combine spatial technology with AI-powered
       solutions to redefine navigation, heritage, and immersive environments.
     </p>
-    <div class="about__carousel" aria-hidden="true">
-      <div class="about__carousel-track">
+    <div class="about__carousel-wrap">
+      <p class="about__carousel-eyebrow">Recognized and sponsored by</p>
+      <div class="about__carousel" aria-hidden="true">
+        <div class="about__carousel-track">
         {[...partners, ...partners].map((src) => (
           <div class="about__carousel-item">
             <img src={src} alt="" loading="lazy" />
           </div>
         ))}
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -32,6 +35,12 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
     border-top-left-radius: 2em;
     border-top-right-radius: 2em;
     background-color: var(--c-surface);
+  }
+
+  @media (max-width: 768px) {
+    .about {
+      min-height: 40vh;
+    }
   }
 
   @media (min-width: 769px) {
@@ -63,6 +72,15 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
     color: var(--c-text);
   }
 
+  @media (max-width: 768px) {
+    .about__title {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--c-text-muted);
+    }
+  }
+
   @media (min-width: 769px) {
     .about__title {
       font-size: clamp(3.5rem, 7vw, 5rem);
@@ -85,8 +103,19 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
     }
   }
 
-  .about__carousel {
+  .about__carousel-wrap {
     margin-top: var(--s-12);
+  }
+
+  .about__carousel-eyebrow {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--c-text-muted);
+    margin: 0 0 var(--s-4);
+  }
+
+  .about__carousel {
     overflow: hidden;
     mask-image: linear-gradient(
       to right,
