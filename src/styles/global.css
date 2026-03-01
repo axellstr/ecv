@@ -7,8 +7,8 @@
   --font-heading: 'Space Grotesk', sans-serif;
 
   /* Colors */
-  --c-bg: rgb(23, 23, 23);
-  --c-surface: rgb(27, 27, 27);
+  --c-bg: rgb(6, 6, 6);
+  --c-surface: rgb(0, 0, 0);
   --c-border: rgb(60, 60, 60);
   --c-text: #ffffff;
   --c-text-muted: rgb(160, 160, 160);

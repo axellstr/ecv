@@ -9,12 +9,17 @@
   </div>
   <ul class="navbar__list navbar__list--desktop" role="list">
     <li><a href="#about" class="navbar__link" data-section="about">About ECV</a></li>
-    <li><a href="#services" class="navbar__link" data-section="services">Services</a></li>
+    <li><a href="#solutions" class="navbar__link" data-section="solutions">Solutions</a></li>
     <li><a href="#digital-twins" class="navbar__link" data-section="digital-twins">Digital Twins</a></li>
     <li><a href="#interactive-model" class="navbar__link" data-section="interactive-model">Interactive Model</a></li>
     <li><a href="#use-cases" class="navbar__link" data-section="use-cases">Use Cases</a></li>
     <li><a href="#contact" class="navbar__link" data-section="contact">Contact</a></li>
   </ul>
+
+  <!-- Mobile: logo top-left (always visible) -->
+  <a href="#" class="navbar__brand navbar__brand--mobile-top" aria-label="E-Compvenience home">
+    <img src="/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
+  </a>
 
   <!-- Mobile: hamburger button -->
   <button
@@ -35,8 +40,8 @@
       <img src="/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
     </a>
     <ul class="navbar__list navbar__list--mobile" role="list">
-      <li><a href="#services" class="navbar__link" data-section="services">Services</a></li>
       <li><a href="#about" class="navbar__link" data-section="about">About ECV</a></li>
+      <li><a href="#solutions" class="navbar__link" data-section="solutions">Solutions</a></li>
       <li><a href="#digital-twins" class="navbar__link" data-section="digital-twins">Digital Twins</a></li>
       <li><a href="#interactive-model" class="navbar__link" data-section="interactive-model">Interactive Model</a></li>
       <li><a href="#use-cases" class="navbar__link" data-section="use-cases">Use Cases</a></li>
@@ -98,6 +103,36 @@
 
   .navbar__brand--mobile .navbar__logo {
     height: 1.75rem;
+  }
+
+  /* Mobile: logo top-left (matches hamburger tap target) */
+  .navbar__brand--mobile-top {
+    display: none;
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    z-index: 1001;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .navbar__brand--mobile-top .navbar__logo {
+    height: 1.75rem;
+    width: auto;
+  }
+
+  @media (max-width: 768px) {
+    .navbar__brand--mobile-top {
+      display: flex;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .navbar__brand--mobile-top {
+      display: none !important;
+    }
   }
 
   /* Desktop nav list - top-left, below logo */
@@ -336,7 +371,7 @@
     }
 
     // Intersection Observer for scrollspy
-    const sections = ['services', 'about', 'digital-twins', 'interactive-model', 'use-cases', 'contact'];
+    const sections = ['about', 'solutions', 'digital-twins', 'interactive-model', 'use-cases', 'contact'];
     const sectionElements = sections
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el != null);

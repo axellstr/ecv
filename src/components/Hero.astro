@@ -1,10 +1,11 @@
 ---
+import heroSvg from '../assets/hero-illustration.svg?raw';
 ---
 
 <section class="hero">
   <!-- Full-bleed visual on desktop -->
   <div class="hero__visual">
-    <div class="hero__placeholder"></div>
+    <div class="hero__image-wrap" set:html={heroSvg} />
   </div>
   <div class="hero__content">
     <p class="hero__eyebrow">The Future of Digital Experiences</p>
@@ -12,7 +13,7 @@
       Redefining <br>Navigation, Heritage and Virtual Spaces <br> with AI-Powered Innovation.
     </h1>
     <div class="hero__actions">
-      <a href="#work" class="hero__btn hero__btn--primary">Explore Solutions</a>
+      <a href="#solutions" class="hero__btn hero__btn--primary">Explore Solutions</a>
       <a href="#contact" class="hero__btn hero__btn--secondary">Get in Touch</a>
     </div>
   </div>
@@ -24,19 +25,10 @@
     min-height: 100vh;
   }
 
-  @media (min-width: 769px) {
-    .hero {
-      overflow: hidden;
-    }
+  .hero {
+    overflow: hidden;
   }
 
-  @media (max-width: 768px) {
-    .hero {
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-    }
-  }
 
   /* Desktop: visual fills hero, content sits bottom-right */
   .hero__visual {
@@ -44,19 +36,68 @@
     inset: 0;
   }
 
-  .hero__placeholder {
+  .hero__image-wrap {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
+    overflow: hidden;
   }
 
-  .hero__placeholder::after {
-    content: '[3D / visual placeholder]';
-    font-size: var(--text-sm);
-    color: var(--c-text-muted);
-    font-family: var(--font-sans);
+  @media (max-width: 768px) {
+    .hero__image-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .hero__image-wrap :global(svg) {
+    /* Desktop: pin to bottom-left so left side of illustration is visible */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: contain;
+    animation: hero-svg-reveal 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @media (max-width: 768px) {
+    .hero__image-wrap :global(svg) {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      /* Center; render larger to avoid blur */
+      width: 160%;
+      height: 160%;
+      min-width: 160%;
+      min-height: 160%;
+      flex-shrink: 0;
+    }
+  }
+
+  .hero__image-wrap :global(.hero-svg-part) {
+    opacity: 0;
+    animation: hero-part-reveal 0.4s ease-out forwards;
+  }
+
+  @keyframes hero-svg-reveal {
+    from {
+      opacity: 0;
+      transform: scale(0.97) translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes hero-part-reveal {
+    to {
+      opacity: 1;
+    }
   }
 
   .hero__content {
@@ -72,25 +113,14 @@
   }
 
   @media (max-width: 768px) {
-    .hero__visual {
-      position: relative;
-      min-height: 18rem;
-    }
-
-    .hero__placeholder {
-      min-height: 18rem;
-      border: 1px dashed var(--c-border);
-      border-radius: var(--r-lg);
-    }
-
     .hero__content {
-      position: relative;
-      bottom: auto;
-      right: auto;
-      padding: var(--s-8);
+      bottom: var(--s-8);
+      left: var(--s-6);
+      right: var(--s-6);
+      padding: 0;
       max-width: none;
-      align-items: center;
-      text-align: center;
+      align-items: flex-start;
+      text-align: left;
     }
   }
 
@@ -101,6 +131,12 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--c-text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .hero__eyebrow {
+      font-size: var(--text-xs);
+    }
   }
 
   .hero__title {
@@ -121,7 +157,7 @@
 
   @media (max-width: 768px) {
     .hero__actions {
-      justify-content: center;
+      justify-content: flex-start;
     }
   }
 
