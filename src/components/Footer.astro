@@ -50,7 +50,7 @@ const navColumns = [
                   <path d={item.svgPath} />
                 </svg>
               ) : (
-                <item.icon size={18} strokeWidth={2} aria-hidden="true" />
+                <item.icon size={18} stroke-width={2} aria-hidden="true" />
               )}
             </a>
           ))}
@@ -76,13 +76,13 @@ const navColumns = [
         <h3 class="footer__nav-heading">Get in touch</h3>
         <ul class="footer__contact-list">
           <li class="footer__contact-item">
-            <Mail size={16} strokeWidth={2} aria-hidden="true" />
+            <Mail size={16} stroke-width={2} aria-hidden="true" />
             <a href="mailto:info@e-compvenience.com" class="footer__contact-link">
               info@e-compvenience.com
             </a>
           </li>
           <li class="footer__contact-item">
-            <MapPin size={16} strokeWidth={2} aria-hidden="true" />
+            <MapPin size={16} stroke-width={2} aria-hidden="true" />
             <span class="footer__contact-text">Nicosia, Cyprus</span>
           </li>
         </ul>
@@ -93,7 +93,7 @@ const navColumns = [
     <div class="footer__bottom">
       <p class="footer__copy">&copy; {new Date().getFullYear()} E-Compvenience. All rights reserved.</p>
       <button class="footer__back-to-top" aria-label="Back to top" type="button">
-        <ArrowUp size={16} strokeWidth={2.5} aria-hidden="true" />
+        <ArrowUp size={16} stroke-width={2.5} aria-hidden="true" />
         <span>Top</span>
       </button>
     </div>
@@ -183,6 +183,11 @@ const navColumns = [
     color: var(--accent-primary);
     border-color: var(--accent-primary);
     background: rgba(217, 255, 0, 0.06);
+  }
+
+  .footer__social-link:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
   }
 
   .footer__social-icon {
@@ -289,12 +294,18 @@ const navColumns = [
     text-transform: uppercase;
     cursor: pointer;
     transition: color 0.2s, border-color 0.2s, background 0.2s;
+    min-height: 2.25rem;
   }
 
   .footer__back-to-top:hover {
     color: var(--accent-primary);
     border-color: var(--accent-primary);
     background: rgba(217, 255, 0, 0.06);
+  }
+
+  .footer__back-to-top:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
   }
 
   /* ── Mobile tweaks ────────────────────────────────────────────── */

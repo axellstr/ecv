@@ -166,6 +166,12 @@
     color: #888888;
   }
 
+  .navbar__link:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
   .navbar__link.active {
     color: #FFFFFF;
     border-left-color: var(--accent-primary);
@@ -203,9 +209,17 @@
     touch-action: manipulation;
   }
 
-  .navbar__hamburger:hover,
-  .navbar__hamburger:focus {
+  .navbar__hamburger:hover {
     opacity: 0.9;
+  }
+
+  .navbar__hamburger:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+    border-radius: var(--r-sm);
+  }
+
+  .navbar__hamburger:focus:not(:focus-visible) {
     outline: none;
   }
 

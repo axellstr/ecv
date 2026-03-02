@@ -2,6 +2,7 @@
 ---
 
 <section id="contact" class="contact">
+  <img src="/3db.svg" alt="" class="contact__bg-art" aria-hidden="true" loading="lazy" />
   <div class="contact__inner">
     <header class="contact__header">
       <h2 class="contact__title">Get in touch</h2>
@@ -18,10 +19,6 @@
           <a href="mailto:info@e-compvenience.com" class="contact__info-link">
             info@e-compvenience.com
           </a>
-        </div>
-        <div class="contact__info-block">
-          <h3 class="contact__info-title">Response time</h3>
-          <p class="contact__info-text">We typically reply within 24 business hours.</p>
         </div>
         <div class="contact__info-block">
           <h3 class="contact__info-title">Office</h3>
@@ -133,6 +130,7 @@
 
 <style>
   .contact {
+    position: relative;
     min-height: 100vh;
     padding: var(--s-8);
     display: flex;
@@ -141,6 +139,38 @@
     border-top-left-radius: 2em;
     border-top-right-radius: 2em;
     background-color: var(--c-surface);
+    overflow: hidden;
+  }
+
+  .contact__bg-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right bottom;
+    opacity: 0.1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  @media (max-width: 768px) {
+    .contact__bg-art {
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-width: 150%;
+      min-height: 150%;
+      object-fit: cover;
+      object-position: right bottom;
+      opacity: 0.2;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contact {
+      padding: var(--s-6) var(--s-5);
+    }
   }
 
   @media (min-width: 769px) {
@@ -151,7 +181,10 @@
   }
 
   .contact__inner {
+    position: relative;
+    z-index: 1;
     max-width: 62rem;
+    width: 100%;
   }
 
   @media (min-width: 769px) {
@@ -161,10 +194,10 @@
   }
 
   .contact__header {
-    text-align: center;
+    text-align: left;
   }
 
-  @media (min-width: 769px) {
+  @media (max-width: 768px) {
     .contact__header {
       text-align: left;
     }
@@ -174,6 +207,8 @@
     font-family: var(--font-heading);
     font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
     font-weight: 400;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
     margin: 0 0 var(--s-6);
     color: var(--c-text);
   }
@@ -181,6 +216,7 @@
   @media (min-width: 769px) {
     .contact__title {
       font-size: clamp(3rem, 6vw, 4.5rem);
+      letter-spacing: -0.02em;
       margin-bottom: var(--s-8);
     }
   }
@@ -188,16 +224,21 @@
   .contact__description {
     margin: 0 0 var(--s-10);
     font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
     color: var(--c-text-muted);
-    line-height: 1.75;
+    max-width: 42ch;
   }
 
   @media (min-width: 769px) {
     .contact__description {
-      font-size: var(--text-xl);
-      line-height: 1.8;
+      font-size: 1.1875rem;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
       color: var(--c-text);
       margin-bottom: var(--s-12);
+      max-width: 48ch;
     }
   }
 
@@ -317,11 +358,12 @@
     border: 1px solid var(--c-border);
     border-radius: var(--r-md);
     transition: border-color 0.2s, box-shadow 0.2s;
+    min-height: 2.75rem;
   }
 
   .contact__input::placeholder {
     color: var(--c-text-muted);
-    opacity: 0.8;
+    opacity: 0.6;
   }
 
   .contact__input:hover:not(:disabled) {
@@ -330,8 +372,8 @@
 
   .contact__input:focus {
     outline: none;
-    border-color: var(--c-text-muted);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-primary, #d9ff00);
+    box-shadow: 0 0 0 3px rgba(217, 255, 0, 0.08);
   }
 
   .contact__input:disabled {

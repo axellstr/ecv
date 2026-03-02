@@ -53,6 +53,12 @@
     justify-content: center;
   }
 
+  @media (max-width: 480px) {
+    .digital-twins {
+      padding: var(--s-6) var(--s-5);
+    }
+  }
+
   .digital-twins__inner {
     max-width: 42rem;
     text-align: left;
@@ -70,13 +76,16 @@
     font-family: var(--font-heading);
     font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
     font-weight: 400;
+    letter-spacing: -0.01em;
     margin: 0 0 var(--s-6);
     color: var(--c-text);
+    text-transform: uppercase;
   }
 
   @media (min-width: 769px) {
     .digital-twins__title {
       font-size: clamp(3rem, 6vw, 4.5rem);
+      letter-spacing: -0.02em;
       margin-bottom: var(--s-8);
     }
   }
@@ -84,15 +93,19 @@
   .digital-twins__description {
     margin: 0 0 var(--s-10);
     font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
     color: var(--c-text-muted);
-    line-height: 1.75;
+    max-width: 42ch;
   }
 
   @media (min-width: 769px) {
     .digital-twins__description {
-      font-size: var(--text-xl);
-      line-height: 1.8;
+      font-size: 1.1875rem;
+      line-height: 1.55;
       color: var(--c-text);
+      max-width: 48ch;
     }
   }
 

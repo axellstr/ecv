@@ -13,17 +13,17 @@ const services = [
   {
     title: 'Simulations',
     description: 'Capability to run a series of simulation on the generated models, including crowd, traffic weather, light and more.',
-    image: '',
+    image: '/sim.png',
   },
   {
     title: 'Cultural Heritage',
     description: 'Heritage site capture and documentation.',
-    image: '',
+    image: '/cy.png',
   },
   {
     title: 'AR/VR Estate',
     description: 'Augmented and virtual reality solutions for real estate visualization, virtual property tours, and immersive showcases.',
-    image: '',
+    image: '/estate.png',
   },
   {
     title: 'Interactive Geospatial Models',
@@ -45,7 +45,7 @@ const services = [
         <li class="services__item">
           <div class="services__item-image">
             {service.image ? (
-              <img src={service.image} alt={service.title} />
+              <img src={service.image} alt={service.title} loading="lazy" />
             ) : (
               <div class="services__item-image-placeholder" aria-hidden="true" />
             )}
@@ -70,6 +70,12 @@ const services = [
     background-color: var(--c-surface);
   }
 
+  @media (max-width: 480px) {
+    .services {
+      padding: var(--s-6) var(--s-5);
+    }
+  }
+
   .services__inner {
     width: 100%;
     max-width: 42rem;
@@ -89,13 +95,16 @@ const services = [
     font-family: var(--font-heading);
     font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
     font-weight: 400;
+    letter-spacing: -0.01em;
     margin: 0 0 var(--s-6);
     color: var(--c-text);
+    text-transform: uppercase;
   }
 
   @media (min-width: 769px) {
     .services__title {
       font-size: clamp(3rem, 6vw, 4.5rem);
+      letter-spacing: -0.02em;
       margin-bottom: var(--s-8);
     }
   }
@@ -103,16 +112,20 @@ const services = [
   .services__description {
     margin: 0 0 var(--s-10);
     font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
     color: var(--c-text-muted);
-    line-height: 1.75;
+    max-width: 42ch;
   }
 
   @media (min-width: 769px) {
     .services__description {
-      font-size: var(--text-xl);
-      line-height: 1.8;
+      font-size: 1.1875rem;
+      line-height: 1.55;
       color: var(--c-text);
       margin-bottom: var(--s-12);
+      max-width: 48ch;
     }
   }
 
@@ -143,8 +156,15 @@ const services = [
     flex-direction: column;
     gap: var(--s-4);
     padding: var(--s-6);
-    background: var(--c-surface);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--r-lg);
     overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .services__item:hover {
+    border-color: rgba(255, 255, 255, 0.12);
   }
 
   @media (max-width: 768px) {

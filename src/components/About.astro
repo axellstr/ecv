@@ -27,7 +27,6 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
 
 <style>
   .about {
-    min-height: 100vh;
     padding: var(--s-8);
     display: flex;
     align-items: center;
@@ -40,6 +39,12 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
   @media (max-width: 768px) {
     .about {
       min-height: 40vh;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about {
+      padding: var(--s-6) var(--s-5);
     }
   }
 
@@ -84,6 +89,7 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
   @media (min-width: 769px) {
     .about__title {
       font-size: clamp(3.5rem, 7vw, 5rem);
+      letter-spacing: -0.02em;
       margin-bottom: var(--s-8);
     }
   }

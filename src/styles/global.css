@@ -48,8 +48,14 @@
 
 /* ─── Base ─────────────────────────────────────────────────────────────── */
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: 2rem;
 }
 
 body {
@@ -57,15 +63,47 @@ body {
   font-family: var(--font-sans);
   background: var(--c-bg);
   color: var(--c-text);
-  line-height: 1.5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+  line-height: 1.15;
+}
+
+img, picture, video {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
 }
 
 main {
   min-height: 100vh;
+}
+
+::selection {
+  background: rgba(217, 255, 0, 0.3);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ─── Layout ───────────────────────────────────────────────────────────── */

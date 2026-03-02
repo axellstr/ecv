@@ -25,23 +25,27 @@
 
 <style>
   .interactive-model {
-    min-height: 100vh;
     padding: var(--s-8);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  @media (max-width: 480px) {
+    .interactive-model {
+      padding: var(--s-6) var(--s-5);
+    }
+  }
+
   .interactive-model__inner {
     max-width: 42rem;
-    text-align: center;
+    text-align: left;
     width: 100%;
   }
 
   @media (min-width: 769px) {
     .interactive-model__inner {
       max-width: 66rem;
-      text-align: left;
     }
   }
 
@@ -49,6 +53,7 @@
     font-family: var(--font-heading);
     font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
     font-weight: 400;
+    letter-spacing: -0.01em;
     margin: 0 0 var(--s-6);
     color: var(--c-text);
   }
@@ -56,6 +61,7 @@
   @media (min-width: 769px) {
     .interactive-model__title {
       font-size: clamp(3rem, 6vw, 4.5rem);
+      letter-spacing: -0.02em;
       margin-bottom: var(--s-8);
     }
   }
