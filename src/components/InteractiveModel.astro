@@ -8,8 +8,17 @@
       Explore our 3D models directly in your browser. Rotate, zoom, and inspect every detail—
       from geospatial environments to architectural assets.
     </p>
-    <div class="interactive-model__placeholder">
-      <img src="/model.png" alt="3D model preview" class="interactive-model__img" loading="lazy" />
+    <div class="interactive-model__viewport" id="modelViewport">
+      <canvas id="modelCanvas"></canvas>
+      <div class="interactive-model__loader" id="modelLoader">
+        <div class="interactive-model__spinner"></div>
+        <span class="interactive-model__loader-text" id="modelLoaderText">Loading model…</span>
+      </div>
+      <div class="interactive-model__controls">
+        <span>Drag to rotate</span>
+        <span>Scroll to zoom</span>
+        <span>Right-drag to pan</span>
+      </div>
     </div>
   </div>
 </section>
@@ -26,6 +35,7 @@
   .interactive-model__inner {
     max-width: 42rem;
     text-align: center;
+    width: 100%;
   }
 
   @media (min-width: 769px) {
@@ -65,16 +75,244 @@
     }
   }
 
-  .interactive-model__placeholder {
+  /* ── 3D Viewport ────────────────────────────────────────────────────── */
+
+  .interactive-model__viewport {
+    position: relative;
     margin-top: var(--s-8);
-    border-radius: var(--s-2);
+    border-radius: var(--r-lg);
     overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: #0a0a0a;
+    aspect-ratio: 16 / 9;
   }
 
-  .interactive-model__img {
-    width: 100%;
-    height: auto;
+  @media (max-width: 768px) {
+    .interactive-model__viewport {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  #modelCanvas {
     display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
   }
 
+  /* Loading overlay */
+  .interactive-model__loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-4);
+    background: #0a0a0a;
+    z-index: 2;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+
+  .interactive-model__loader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .interactive-model__spinner {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-top-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: model-spin 0.8s linear infinite;
+  }
+
+  @keyframes model-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .interactive-model__loader-text {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    color: var(--c-text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* Hint bar */
+  .interactive-model__controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: var(--s-6);
+    padding: var(--s-3) var(--s-4);
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .interactive-model__controls span {
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .interactive-model__controls {
+      gap: var(--s-3);
+    }
+    .interactive-model__controls span {
+      font-size: 0.625rem;
+    }
+  }
 </style>
+
+<script>
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+  const viewport = document.getElementById('modelViewport') as HTMLDivElement;
+  const canvas = document.getElementById('modelCanvas') as HTMLCanvasElement;
+  const loader = document.getElementById('modelLoader') as HTMLDivElement;
+  const loaderText = document.getElementById('modelLoaderText') as HTMLSpanElement;
+
+  if (viewport && canvas) {
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: false,
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0a0a);
+
+    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 2000);
+
+    // Lighting
+    const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambient);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(50, 80, 60);
+    dirLight.castShadow = false;
+    scene.add(dirLight);
+
+    const fillLight = new THREE.DirectionalLight(0xaaccff, 0.4);
+    fillLight.position.set(-40, 20, -30);
+    scene.add(fillLight);
+
+    const hemiLight = new THREE.HemisphereLight(0xddeeff, 0x222211, 0.6);
+    scene.add(hemiLight);
+
+    // OrbitControls
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.minDistance = 5;
+    controls.maxDistance = 500;
+    controls.maxPolarAngle = Math.PI / 2;
+    controls.enablePan = true;
+    controls.panSpeed = 0.8;
+    controls.rotateSpeed = 0.6;
+    controls.zoomSpeed = 1.0;
+
+    function resize() {
+      const w = viewport.clientWidth;
+      const h = viewport.clientHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+
+    // Load model
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load(
+      '/leventis.glb',
+      (gltf) => {
+        const model = gltf.scene;
+
+        // Strip grid helpers, axis helpers, and standalone line objects exported by 3D software
+        const toRemove: THREE.Object3D[] = [];
+        model.traverse((child) => {
+          if (
+            child instanceof THREE.GridHelper ||
+            child instanceof THREE.AxesHelper ||
+            (child instanceof THREE.LineSegments && !(child.parent instanceof THREE.Mesh)) ||
+            (child instanceof THREE.Line && !(child instanceof THREE.LineSegments) && !(child.parent instanceof THREE.Mesh)) ||
+            /grid|axes|helper|gizmo/i.test(child.name)
+          ) {
+            toRemove.push(child);
+          }
+        });
+        toRemove.forEach((obj) => obj.parent?.remove(obj));
+
+        scene.add(model);
+
+        // Auto-center and frame
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+
+        model.position.sub(center);
+
+        controls.target.set(0, 0, 0);
+
+        const fov = camera.fov * (Math.PI / 180);
+        let cameraDistance = (maxDim / 2) / Math.tan(fov / 2);
+        cameraDistance *= 1.2;
+
+        camera.position.set(
+          cameraDistance * 0.7,
+          cameraDistance * 0.45,
+          cameraDistance * 0.7
+        );
+        camera.lookAt(0, 0, 0);
+
+        controls.minDistance = cameraDistance * 0.15;
+        controls.maxDistance = cameraDistance * 4;
+        controls.update();
+
+        if (loader) {
+          loader.classList.add('is-hidden');
+        }
+      },
+      (progress) => {
+        if (progress.total > 0 && loaderText) {
+          const pct = Math.round((progress.loaded / progress.total) * 100);
+          loaderText.textContent = `Loading model… ${pct}%`;
+        }
+      },
+      (error) => {
+        console.error('GLB load error:', error);
+        if (loaderText) {
+          loaderText.textContent = 'Failed to load model';
+        }
+      }
+    );
+
+    // Render loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Responsive resize
+    const ro = new ResizeObserver(resize);
+    ro.observe(viewport);
+  }
+</script>
