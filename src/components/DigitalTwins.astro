@@ -19,15 +19,27 @@
         <p class="digital-twins__feature-desc">Run crowd, traffic, weather, and lighting simulations to test scenarios before they happen.</p>
       </div>
     </div>
-    <div class="digital-twins__visual">
-      <video
-        class="digital-twins__video"
-        src="/vide.mp4"
-        autoplay
-        muted
-        playsinline
-        loop
-      />
+
+    <!-- Before / After comparison slider -->
+    <div class="comparison" id="comparison">
+      <div class="comparison__image-wrap">
+        <img src="/real.png" alt="Physical building" class="comparison__img" draggable="false" />
+      </div>
+      <div class="comparison__overlay" id="comparisonOverlay">
+        <img src="/virtual.png" alt="Digital twin model" class="comparison__img" draggable="false" />
+      </div>
+      <div class="comparison__handle" id="comparisonHandle">
+        <div class="comparison__handle-line"></div>
+        <div class="comparison__handle-knob">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M13 4l5 6-5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 4L2 10l5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="comparison__handle-line"></div>
+      </div>
+      <span class="comparison__label comparison__label--left">Digital Twin</span>
+      <span class="comparison__label comparison__label--right">Physical</span>
     </div>
   </div>
 </section>
@@ -120,21 +132,146 @@
     line-height: 1.6;
   }
 
-  .digital-twins__visual {
-    margin-top: var(--s-8);
-  }
+  /* ── Comparison slider ──────────────────────────────────────────────── */
 
-  .digital-twins__video {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
+  .comparison {
+    position: relative;
+    margin-top: var(--s-8);
     border-radius: var(--r-lg);
+    overflow: hidden;
     border: 1px solid var(--c-border);
+    cursor: col-resize;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    -webkit-touch-callout: none;
+    aspect-ratio: 16 / 9;
   }
 
   @media (max-width: 768px) {
-    .digital-twins__video {
+    .comparison {
       aspect-ratio: 4 / 3;
     }
   }
+
+  .comparison__image-wrap {
+    position: absolute;
+    inset: 0;
+  }
+
+  .comparison__overlay {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 50% 0 0);
+    z-index: 1;
+  }
+
+  .comparison__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .comparison__handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .comparison__handle-line {
+    flex: 1;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .comparison__handle-knob {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .comparison__label {
+    position: absolute;
+    bottom: var(--s-4);
+    z-index: 3;
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: var(--s-1) var(--s-3);
+    border-radius: var(--r-md);
+    pointer-events: none;
+  }
+
+  .comparison__label--left {
+    left: var(--s-4);
+  }
+
+  .comparison__label--right {
+    right: var(--s-4);
+  }
 </style>
+
+<script>
+  const container = document.getElementById('comparison');
+  const overlay = document.getElementById('comparisonOverlay');
+  const handle = document.getElementById('comparisonHandle');
+
+  if (container && overlay && handle) {
+    let dragging = false;
+
+    function setPosition(x: number) {
+      const rect = container!.getBoundingClientRect();
+      let pct = ((x - rect.left) / rect.width) * 100;
+      pct = Math.max(2, Math.min(98, pct));
+      overlay!.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      handle!.style.left = pct + '%';
+    }
+
+    container.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      dragging = true;
+      container!.setPointerCapture(e.pointerId);
+      setPosition(e.clientX);
+    });
+
+    container.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+      setPosition(e.clientX);
+    });
+
+    container.addEventListener('pointerup', (e) => {
+      dragging = false;
+      container!.releasePointerCapture(e.pointerId);
+    });
+
+    container.addEventListener('pointercancel', () => { dragging = false; });
+
+    container.addEventListener('touchstart', (e) => { e.preventDefault(); }, { passive: false });
+  }
+</script>

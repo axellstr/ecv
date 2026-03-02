@@ -1,20 +1,34 @@
 ---
 const useCases = [
   {
-    title: 'Infrastructure & Smart Cities',
-    description: 'Digital twins for urban planning, traffic simulation, and infrastructure monitoring.',
+    title: 'Real Estate',
+    description: 'AR/VR property tours, development visualisation, and stakeholder presentations that bring spaces to life before they exist.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>`,
+    accent: '#d9ff00',
   },
   {
-    title: 'Cultural Heritage',
-    description: 'Capture, document, and preserve heritage sites with high-fidelity 3D models.',
+    title: 'Smart City',
+    description: 'Digital twins for urban planning, traffic simulation, and city-scale monitoring powering the cities of tomorrow.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="6" height="15" rx="1"/><rect x="9" y="2" width="6" height="19" rx="1"/><rect x="17" y="9" width="6" height="12" rx="1"/><path d="M4 9v.01"/><path d="M4 12v.01"/><path d="M4 15v.01"/><path d="M12 5v.01"/><path d="M12 8v.01"/><path d="M12 11v.01"/><path d="M20 12v.01"/><path d="M20 15v.01"/></svg>`,
+    accent: '#00d4ff',
   },
   {
-    title: 'Real Estate & Development',
-    description: 'AR/VR property tours, development visualisation, and stakeholder presentations.',
+    title: 'Smart Campus',
+    description: 'Campus-wide digital twins for universities, corporate parks, and institutional environments.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L1 9l11 6 9-4.91V17"/><path d="M5 13.18v4L12 21l7-3.82v-4"/></svg>`,
+    accent: '#a78bfa',
   },
   {
-    title: 'Industrial & Facilities',
-    description: 'Asset management, predictive maintenance, and IoT-augmented facility twins.',
+    title: 'Smart Building',
+    description: 'Intelligent building management, real-time occupancy analytics, and energy optimisation through connected digital twins.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>`,
+    accent: '#fb923c',
+  },
+  {
+    title: 'Smart Infrastructure',
+    description: 'Asset management, predictive maintenance, and IoT-augmented infrastructure twins for roads, bridges, and utilities.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20V8l4-4 4 4v12"/><path d="M9 4v0"/><path d="M3 20l6-12 6 12"/><path d="M15 20l3-6 3 6"/><circle cx="18" cy="9" r="3"/></svg>`,
+    accent: '#34d399',
   },
 ];
 ---
@@ -22,107 +36,173 @@ const useCases = [
 <section id="use-cases" class="use-cases">
   <div class="use-cases__inner">
     <h2 class="use-cases__title">Use Cases</h2>
-    <p class="use-cases__description">
-      Our solutions span industries—from smart cities and heritage preservation to real estate
-      and industrial facilities. Discover how digital twins and spatial tech can transform your domain.
+    <p class="use-cases__subtitle">
+      Discover how digital twins and spatial technology transform industries.
     </p>
-    <ul class="use-cases__list" role="list">
-      {useCases.map((useCase) => (
-        <li class="use-cases__item">
-          <h3 class="use-cases__item-title">{useCase.title}</h3>
-          <p class="use-cases__item-desc">{useCase.description}</p>
-        </li>
+
+    <div class="bento">
+      {useCases.map((uc, i) => (
+        <article class={`bento__card bento__card--${i + 1}`} style={`--card-accent: ${uc.accent};`}>
+          <div class="bento__icon" set:html={uc.icon} />
+          <h3 class="bento__title">{uc.title}</h3>
+          <p class="bento__desc">{uc.description}</p>
+          <div class="bento__glow" />
+        </article>
       ))}
-    </ul>
+    </div>
   </div>
 </section>
 
 <style>
   .use-cases {
     min-height: 100vh;
-    padding: var(--s-8);
+    padding: var(--s-8) var(--s-6);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .use-cases__inner {
-    max-width: 42rem;
-    text-align: center;
-  }
-
-  @media (min-width: 769px) {
-    .use-cases__inner {
-      max-width: 66rem;
-      text-align: left;
-    }
+    max-width: 72rem;
+    width: 100%;
   }
 
   .use-cases__title {
     font-family: var(--font-heading);
     font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
     font-weight: 400;
-    margin: 0 0 var(--s-6);
+    margin: 0 0 var(--s-4);
     color: var(--c-text);
+    text-align: center;
   }
 
   @media (min-width: 769px) {
     .use-cases__title {
       font-size: clamp(3rem, 6vw, 4.5rem);
-      margin-bottom: var(--s-8);
+      margin-bottom: var(--s-4);
     }
   }
 
-  .use-cases__description {
+  .use-cases__subtitle {
     margin: 0 0 var(--s-10);
     font-size: var(--text-lg);
     color: var(--c-text-muted);
     line-height: 1.75;
+    text-align: center;
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   @media (min-width: 769px) {
-    .use-cases__description {
+    .use-cases__subtitle {
       font-size: var(--text-xl);
-      line-height: 1.8;
-      color: var(--c-text);
       margin-bottom: var(--s-12);
     }
   }
 
-  .use-cases__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  /* ── Bento Grid ────────────────────────────────────────────── */
+
+  .bento {
     display: grid;
-    gap: var(--s-6);
+    gap: clamp(0.75rem, 1.5vw, 1rem);
+    grid-template-columns: 1fr;
   }
 
-  @media (min-width: 769px) {
-    .use-cases__list {
+  @media (min-width: 640px) {
+    .bento {
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--s-8);
     }
   }
 
-  .use-cases__item {
-    padding: var(--s-6);
-    background: var(--c-surface);
-    border-radius: var(--r-lg);
-    border: 1px solid var(--c-border);
+  @media (min-width: 960px) {
+    .bento {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+    }
+
+    .bento__card--1 { grid-column: 1 / 3; grid-row: 1 / 2; }
+    .bento__card--2 { grid-column: 3 / 5; grid-row: 1 / 2; }
+    .bento__card--3 { grid-column: 1 / 2; grid-row: 2 / 3; }
+    .bento__card--4 { grid-column: 2 / 4; grid-row: 2 / 3; }
+    .bento__card--5 { grid-column: 4 / 5; grid-row: 2 / 3; }
   }
 
-  .use-cases__item-title {
+  /* ── Card ──────────────────────────────────────────────────── */
+
+  .bento__card {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    transition: border-color 0.35s ease, transform 0.35s ease;
+    will-change: transform;
+  }
+
+  .bento__card:hover {
+    border-color: color-mix(in srgb, var(--card-accent) 35%, transparent);
+  }
+
+  .bento__glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: radial-gradient(
+      ellipse at 30% 0%,
+      color-mix(in srgb, var(--card-accent) 8%, transparent),
+      transparent 70%
+    );
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+
+  .bento__card:hover .bento__glow {
+    opacity: 1;
+  }
+
+  .bento__icon {
+    color: var(--card-accent);
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    margin-bottom: var(--s-1);
+  }
+
+  .bento__title {
     font-family: var(--font-heading);
     font-size: var(--text-xl);
     font-weight: 500;
-    margin: 0 0 var(--s-3);
+    margin: 0;
     color: var(--c-text);
+    letter-spacing: -0.01em;
   }
 
-  .use-cases__item-desc {
+  .bento__desc {
     margin: 0;
     font-size: var(--text-base);
     color: var(--c-text-muted);
-    line-height: 1.6;
+    line-height: 1.65;
+  }
+
+  /* Featured cards get larger titles on desktop */
+  @media (min-width: 960px) {
+    .bento__card--1 .bento__title,
+    .bento__card--2 .bento__title {
+      font-size: var(--text-2xl);
+    }
+
+    .bento__card--1 .bento__desc,
+    .bento__card--2 .bento__desc {
+      font-size: var(--text-lg);
+    }
+
+    .bento__card--4 .bento__title {
+      font-size: var(--text-2xl);
+    }
   }
 </style>
