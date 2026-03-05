@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import imgReal from '../assets/digital-twins/real.png';
+import imgVirtual from '../assets/digital-twins/virtual.png';
 ---
 
 <section id="digital-twins" class="digital-twins">
@@ -23,10 +26,28 @@
     <!-- Before / After comparison slider -->
     <div class="comparison" id="comparison">
       <div class="comparison__image-wrap">
-        <img src="/images/digital-twins/real.png" alt="Physical building" class="comparison__img" draggable="false" />
+        <Image
+          src={imgReal}
+          alt="Physical building"
+          class="comparison__img"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 768px) 100vw, 66rem"
+          format="webp"
+          quality={80}
+          loading="lazy"
+        />
       </div>
       <div class="comparison__overlay" id="comparisonOverlay">
-        <img src="/images/digital-twins/virtual.png" alt="Digital twin model" class="comparison__img" draggable="false" />
+        <Image
+          src={imgVirtual}
+          alt="Digital twin model"
+          class="comparison__img"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 768px) 100vw, 66rem"
+          format="webp"
+          quality={80}
+          loading="lazy"
+        />
       </div>
       <div class="comparison__handle" id="comparisonHandle">
         <div class="comparison__handle-line"></div>

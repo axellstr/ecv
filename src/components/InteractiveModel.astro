@@ -34,43 +34,37 @@
       <!-- Info panel lives outside viewport for mobile flow -->
       <div class="interactive-model__info-panel" id="infoPanel">
         <div class="info-panel__header">
-          <h3 class="info-panel__title">Leventis Municipal Museum</h3>
+          <h3 class="info-panel__title">University House Anastasios G. Leventis</h3>
           <p class="info-panel__location">Nicosia, Cyprus</p>
-          <p class="info-panel__desc">Digital twin via photogrammetric reconstruction</p>
+          <p class="info-panel__desc">Digital Twin Reconstruction: Photogrammetry and BIM documentation</p>
         </div>
 
         <div class="info-panel__section">
           <span class="info-panel__label">Statistics</span>
           <div class="info-panel__stats">
             <div class="info-panel__stat">
-              <span class="info-panel__stat-value" id="statVertices">—</span>
-              <span class="info-panel__stat-key">Vertices</span>
+              <span class="info-panel__stat-value">9527.2</span>
+              <span class="info-panel__stat-key">m² Indoor</span>
             </div>
             <div class="info-panel__stat">
-              <span class="info-panel__stat-value" id="statTriangles">—</span>
-              <span class="info-panel__stat-key">Triangles</span>
+              <span class="info-panel__stat-value">282</span>
+              <span class="info-panel__stat-key">Spaces & Offices</span>
             </div>
             <div class="info-panel__stat">
-              <span class="info-panel__stat-value" id="statMeshes">—</span>
-              <span class="info-panel__stat-key">Meshes</span>
+              <span class="info-panel__stat-value">1200+</span>
+              <span class="info-panel__stat-key">m² Outdoor Area</span>
             </div>
             <div class="info-panel__stat">
-              <span class="info-panel__stat-value" id="statMaterials">—</span>
-              <span class="info-panel__stat-key">Materials</span>
+              <span class="info-panel__stat-value">3</span>
+              <span class="info-panel__stat-key">Staircases</span>
             </div>
           </div>
-        </div>
-
-        <div class="info-panel__section">
-          <span class="info-panel__label">Dimensions</span>
-          <p class="info-panel__dimensions" id="statDimensions">—</p>
         </div>
 
         <div class="info-panel__section">
           <span class="info-panel__label">Controls</span>
           <div class="info-panel__actions">
             <button class="info-panel__btn" id="btnWireframe">Wireframe</button>
-            <button class="info-panel__btn" id="btnGrid">Grid</button>
             <button class="info-panel__btn" id="btnReset">Reset View</button>
           </div>
         </div>
@@ -285,7 +279,7 @@
     top: calc(var(--s-3) + 36px + var(--s-2));
     right: var(--s-3);
     z-index: 3;
-    width: 264px;
+    width: 340px;
     background: rgba(10, 10, 10, 0.78);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -361,19 +355,19 @@
   .info-panel__stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--s-2);
+    gap: var(--s-3);
   }
 
   .info-panel__stat {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 2px;
   }
 
   .info-panel__stat-value {
     font-family: var(--font-heading);
-    font-size: var(--text-sm);
-    font-weight: 500;
+    font-size: var(--text-base);
+    font-weight: 600;
     color: #fff;
     letter-spacing: -0.01em;
   }
@@ -382,15 +376,6 @@
     font-size: 0.625rem;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 0.02em;
-  }
-
-  /* Dimensions */
-  .info-panel__dimensions {
-    font-family: var(--font-heading);
-    font-size: var(--text-sm);
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0;
-    letter-spacing: 0.01em;
   }
 
   /* Control buttons */
@@ -545,7 +530,9 @@
     }
     resize();
 
-    let gridHelper: InstanceType<typeof THREE.GridHelper> | null = null;
+    let resetAnim: { start: number; duration: number; fromPos: any; fromTarget: any } | null = null;
+    let initialCamPos: any = null;
+    let initialTarget: any = null;
 
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(
@@ -553,7 +540,7 @@
       (gltf) => {
         const model = gltf.scene;
 
-        const toRemove: THREE.Object3D[] = [];
+        const toRemove: InstanceType<typeof THREE.Object3D>[] = [];
         model.traverse((child) => {
           if (
             child instanceof THREE.GridHelper ||
@@ -593,47 +580,12 @@
         controls.maxDistance = cameraDistance * 4;
         controls.update();
 
-        const initialCamPos = camera.position.clone();
-        const initialTarget = controls.target.clone();
+        initialCamPos = camera.position.clone();
+        initialTarget = controls.target.clone();
 
         // --- Extract model statistics ---
-        let vertexCount = 0;
-        let triangleCount = 0;
-        let meshCount = 0;
-        const materialsSet = new Set<THREE.Material>();
-
-        model.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            meshCount++;
-            const geo = child.geometry as THREE.BufferGeometry;
-            vertexCount += geo.attributes.position?.count ?? 0;
-            triangleCount += geo.index
-              ? geo.index.count / 3
-              : (geo.attributes.position?.count ?? 0) / 3;
-            const mats = Array.isArray(child.material) ? child.material : [child.material];
-            mats.forEach((m) => materialsSet.add(m));
-          }
-        });
-
-        const fmt = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(Math.round(n));
-
-        const elVertices = document.getElementById('statVertices');
-        const elTriangles = document.getElementById('statTriangles');
-        const elMeshes = document.getElementById('statMeshes');
-        const elMaterials = document.getElementById('statMaterials');
-        const elDimensions = document.getElementById('statDimensions');
-
-        if (elVertices) elVertices.textContent = fmt(vertexCount);
-        if (elTriangles) elTriangles.textContent = fmt(triangleCount);
-        if (elMeshes) elMeshes.textContent = String(meshCount);
-        if (elMaterials) elMaterials.textContent = String(materialsSet.size);
-        if (elDimensions) {
-          elDimensions.textContent = `${size.x.toFixed(1)} × ${size.y.toFixed(1)} × ${size.z.toFixed(1)} units`;
-        }
-
         // --- Wire interactive controls ---
         const btnWireframe = document.getElementById('btnWireframe') as HTMLButtonElement | null;
-        const btnGrid = document.getElementById('btnGrid') as HTMLButtonElement | null;
         const btnReset = document.getElementById('btnReset') as HTMLButtonElement | null;
 
         let wireframeOn = false;
@@ -648,26 +600,13 @@
           });
         });
 
-        let gridOn = false;
-        btnGrid?.addEventListener('click', () => {
-          gridOn = !gridOn;
-          btnGrid.classList.toggle('is-active', gridOn);
-          if (gridOn) {
-            const gridSize = Math.ceil(maxDim * 1.5);
-            gridHelper = new THREE.GridHelper(gridSize, Math.round(gridSize / 2), 0x444444, 0x222222);
-            gridHelper.position.y = -(size.y / 2);
-            scene.add(gridHelper);
-          } else if (gridHelper) {
-            scene.remove(gridHelper);
-            gridHelper.dispose();
-            gridHelper = null;
-          }
-        });
-
         btnReset?.addEventListener('click', () => {
-          camera.position.copy(initialCamPos);
-          controls.target.copy(initialTarget);
-          controls.update();
+          resetAnim = {
+            start: performance.now(),
+            duration: 800,
+            fromPos: camera.position.clone(),
+            fromTarget: controls.target.clone(),
+          };
         });
 
         if (loader) {
@@ -688,8 +627,24 @@
       }
     );
 
+    function easeInOutCubic(t: number): number {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
     function animate() {
       requestAnimationFrame(animate);
+
+      if (resetAnim) {
+        const elapsed = performance.now() - resetAnim.start;
+        const t = Math.min(elapsed / resetAnim.duration, 1);
+        const ease = easeInOutCubic(t);
+
+        camera.position.lerpVectors(resetAnim.fromPos, initialCamPos, ease);
+        controls.target.lerpVectors(resetAnim.fromTarget, initialTarget, ease);
+
+        if (t >= 1) resetAnim = null;
+      }
+
       controls.update();
       renderer.render(scene, camera);
     }
