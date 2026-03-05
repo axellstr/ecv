@@ -1,5 +1,5 @@
 ---
-const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
+const partners = ['/images/partners/c4e.png', '/images/partners/sinn.png', '/images/partners/UCY.png', '/images/partners/goc.png', '/images/partners/cyec.png'];
 ---
 
 <section id="about" class="about">
@@ -71,24 +71,17 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
 
   .about__title {
     font-family: var(--font-heading);
-    font-size: clamp(2rem, 6vw, var(--text-4xl));
+    font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
     font-weight: 400;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
     margin: 0 0 var(--s-6);
     color: var(--c-text);
   }
 
-  @media (max-width: 768px) {
-    .about__title {
-      font-size: var(--text-xs);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--c-text-muted);
-    }
-  }
-
   @media (min-width: 769px) {
     .about__title {
-      font-size: clamp(3.5rem, 7vw, 5rem);
+      font-size: clamp(3rem, 6vw, 4.5rem);
       letter-spacing: -0.02em;
       margin-bottom: var(--s-8);
     }
@@ -97,15 +90,19 @@ const partners = ['/c4e.png', '/sinn.png', '/UCY.png', '/goc.png', '/cyec.png'];
   .about__description {
     margin: 0;
     font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
     color: var(--c-text-muted);
-    line-height: 1.75;
+    max-width: 42ch;
   }
 
   @media (min-width: 769px) {
     .about__description {
-      font-size: var(--text-xl);
-      line-height: 1.8;
-      color: var(--c-text);
+      font-size: var(--text-2xl);
+      line-height: 1.75;
+      color: var(--c-text-sub);
+      max-width: 60ch;
     }
   }
 

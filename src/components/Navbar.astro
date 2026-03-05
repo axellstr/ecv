@@ -4,7 +4,7 @@
   <!-- Desktop: logo + nav list -->
   <div class="navbar__brand navbar__brand--desktop">
     <a href="#" class="navbar__logo-link" aria-label="E-Compvenience home">
-      <img src="/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
+      <img src="/icons/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
     </a>
   </div>
   <ul class="navbar__list navbar__list--desktop" role="list">
@@ -16,29 +16,26 @@
     <li><a href="#contact" class="navbar__link" data-section="contact">Contact</a></li>
   </ul>
 
-  <!-- Mobile: logo top-left (always visible) -->
-  <a href="#" class="navbar__brand navbar__brand--mobile-top" aria-label="E-Compvenience home">
-    <img src="/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
-  </a>
-
-  <!-- Mobile: hamburger button -->
-  <button
-    type="button"
-    class="navbar__hamburger"
-    aria-label="Toggle menu"
-    aria-expanded="false"
-    aria-controls="navbar-overlay"
-  >
-    <span class="navbar__hamburger-line"></span>
-    <span class="navbar__hamburger-line"></span>
-    <span class="navbar__hamburger-line"></span>
-  </button>
-
-  <!-- Mobile: full-screen overlay -->
-  <div id="navbar-overlay" class="navbar__overlay" aria-hidden="true">
-    <a href="#" class="navbar__brand navbar__brand--mobile" aria-label="E-Compvenience home">
-      <img src="/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
+  <!-- Mobile: unified top bar with logo + hamburger -->
+  <div class="navbar__mobile-bar">
+    <a href="#" class="navbar__brand navbar__brand--mobile-top" aria-label="E-Compvenience home">
+      <img src="/icons/ecv.svg" alt="E-Compvenience" class="navbar__logo" width="108" height="36" />
     </a>
+    <button
+      type="button"
+      class="navbar__hamburger"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="navbar-overlay"
+    >
+      <span class="navbar__hamburger-line"></span>
+      <span class="navbar__hamburger-line"></span>
+      <span class="navbar__hamburger-line"></span>
+    </button>
+  </div>
+
+  <!-- Mobile: full-screen overlay (menu only, no logo) -->
+  <div id="navbar-overlay" class="navbar__overlay" aria-hidden="true">
     <ul class="navbar__list navbar__list--mobile" role="list">
       <li><a href="#about" class="navbar__link" data-section="about">About ECV</a></li>
       <li><a href="#solutions" class="navbar__link" data-section="solutions">Solutions</a></li>
@@ -105,44 +102,51 @@
     height: 1.75rem;
   }
 
-  /* Mobile: logo top-left (matches hamburger tap target) */
-  .navbar__brand--mobile-top {
+  /* Mobile: unified top bar */
+  .navbar__mobile-bar {
     display: none;
     position: fixed;
-    top: 1.5rem;
-    left: 1.5rem;
-    min-width: 44px;
-    min-height: 44px;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 7vh;
+    min-height: 40px;
+    max-height: 52px;
+    background: #000000;
+    z-index: 1002;
     align-items: center;
-    z-index: 1001;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .navbar__brand--mobile-top .navbar__logo {
-    height: 1.75rem;
-    width: auto;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    pointer-events: auto;
   }
 
   @media (max-width: 768px) {
-    .navbar__brand--mobile-top {
+    .navbar__mobile-bar {
       display: flex;
     }
   }
 
-  @media (min-width: 769px) {
-    .navbar__brand--mobile-top {
-      display: none !important;
-    }
+  .navbar__brand--mobile-top {
+    display: flex;
+    min-width: 36px;
+    min-height: 36px;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .navbar__brand--mobile-top .navbar__logo {
+    height: 1.25rem;
+    width: auto;
   }
 
   /* Desktop nav list - top-left, below logo */
   .navbar__list--desktop {
     display: flex;
     flex-direction: column;
-    gap: var(--s-2);
+    gap: 0.1rem;
     position: fixed;
-    top: 6rem;
-    left: 2rem;
+    top: 5rem;
+    left: 0.5rem;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -185,16 +189,13 @@
     }
   }
 
-  /* Mobile: hamburger - top right */
+  /* Hamburger button (visible inside mobile bar only) */
   .navbar__hamburger {
     display: none;
-    position: fixed;
-    top: 1.5rem;
-    right: 1.5rem;
-    width: 2.75rem;
-    height: 2.75rem;
-    min-width: 44px;
-    min-height: 44px;
+    width: 2rem;
+    height: 2rem;
+    min-width: 36px;
+    min-height: 36px;
     background: none;
     border: none;
     cursor: pointer;
@@ -202,7 +203,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     z-index: 1002;
     transition: opacity 0.2s ease;
     -webkit-tap-highlight-color: transparent;
@@ -225,17 +226,16 @@
 
   .navbar__hamburger-line {
     display: block;
-    width: 24px;
-    height: 2px;
+    width: 18px;
+    height: 1.5px;
     background: #FFFFFF;
     border-radius: 2px;
     transition: transform 0.25s ease, opacity 0.2s ease;
     transform-origin: center;
   }
 
-  /* Hamburger to X: lines 1 and 3 rotate to center and form X */
   .navbar__hamburger[aria-expanded="true"] .navbar__hamburger-line:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(6.5px) rotate(45deg);
   }
 
   .navbar__hamburger[aria-expanded="true"] .navbar__hamburger-line:nth-child(2) {
@@ -244,7 +244,7 @@
   }
 
   .navbar__hamburger[aria-expanded="true"] .navbar__hamburger-line:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-6.5px) rotate(-45deg);
   }
 
   @media (max-width: 768px) {

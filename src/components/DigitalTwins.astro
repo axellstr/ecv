@@ -23,10 +23,10 @@
     <!-- Before / After comparison slider -->
     <div class="comparison" id="comparison">
       <div class="comparison__image-wrap">
-        <img src="/real.png" alt="Physical building" class="comparison__img" draggable="false" />
+        <img src="/images/digital-twins/real.png" alt="Physical building" class="comparison__img" draggable="false" />
       </div>
       <div class="comparison__overlay" id="comparisonOverlay">
-        <img src="/virtual.png" alt="Digital twin model" class="comparison__img" draggable="false" />
+        <img src="/images/digital-twins/virtual.png" alt="Digital twin model" class="comparison__img" draggable="false" />
       </div>
       <div class="comparison__handle" id="comparisonHandle">
         <div class="comparison__handle-line"></div>
@@ -94,7 +94,7 @@
     margin: 0 0 var(--s-10);
     font-size: var(--text-lg);
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.6;
     letter-spacing: 0.01em;
     color: var(--c-text-muted);
     max-width: 42ch;
@@ -102,10 +102,11 @@
 
   @media (min-width: 769px) {
     .digital-twins__description {
-      font-size: 1.1875rem;
-      line-height: 1.55;
-      color: var(--c-text);
-      max-width: 48ch;
+      font-size: var(--text-2xl);
+      line-height: 1.75;
+      color: var(--c-text-sub);
+      margin-bottom: var(--s-12);
+      max-width: 60ch;
     }
   }
 
@@ -132,7 +133,7 @@
 
   .digital-twins__feature-title {
     font-family: var(--font-heading);
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
     font-weight: 500;
     margin: 0 0 var(--s-2);
     color: var(--c-text);
@@ -140,7 +141,7 @@
 
   .digital-twins__feature-desc {
     margin: 0;
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     color: var(--c-text-muted);
     line-height: 1.6;
   }

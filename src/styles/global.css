@@ -11,6 +11,7 @@
   --c-surface: rgb(0, 0, 0);
   --c-border: rgb(60, 60, 60);
   --c-text: #ffffff;
+  --c-text-sub: rgb(185, 185, 185);
   --c-text-muted: rgb(160, 160, 160);
   --c-accent: rgb(255, 255, 255);
   --bg-void: #000000;
@@ -43,7 +44,7 @@
   /* Radius */
   --r-sm: 0.25rem;
   --r-md: 0.5rem;
-  --r-lg: 0.75rem;
+  --r-lg: 0.5rem;
 }
 
 /* ─── Base ─────────────────────────────────────────────────────────────── */
@@ -56,6 +57,12 @@
 
 html {
   scroll-padding-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 6vh;
+  }
 }
 
 body {
@@ -88,7 +95,7 @@ main {
 }
 
 ::selection {
-  background: rgba(217, 255, 0, 0.3);
+  background: rgb(89, 255, 0);
   color: #fff;
 }
 

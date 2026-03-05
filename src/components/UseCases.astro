@@ -5,30 +5,65 @@ const useCases = [
     description: 'AR/VR property tours, development visualisation, and stakeholder presentations that bring spaces to life before they exist.',
     icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>`,
     accent: '#d9ff00',
+    items: [
+      'Virtual Property Walkthroughs',
+      'Off-Plan 3D Visualisation',
+      'Stakeholder Presentation Suites',
+      'Interactive Floor Plan Mapping',
+      'Construction Progress Monitoring',
+    ],
   },
   {
     title: 'Smart City',
     description: 'Digital twins for urban planning, traffic simulation, and city-scale monitoring powering the cities of tomorrow.',
     icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="6" height="15" rx="1"/><rect x="9" y="2" width="6" height="19" rx="1"/><rect x="17" y="9" width="6" height="12" rx="1"/><path d="M4 9v.01"/><path d="M4 12v.01"/><path d="M4 15v.01"/><path d="M12 5v.01"/><path d="M12 8v.01"/><path d="M12 11v.01"/><path d="M20 12v.01"/><path d="M20 15v.01"/></svg>`,
     accent: '#00d4ff',
+    items: [
+      'Urban Planning Simulations',
+      'Real-Time Traffic Monitoring',
+      'Utility Network Mapping',
+      'Environmental Impact Analysis',
+      'Emergency Response Planning',
+    ],
   },
   {
     title: 'Smart Campus',
     description: 'Campus-wide digital twins for universities, corporate parks, and institutional environments.',
     icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L1 9l11 6 9-4.91V17"/><path d="M5 13.18v4L12 21l7-3.82v-4"/></svg>`,
     accent: '#a78bfa',
+    items: [
+      'Wayfinding & Navigation',
+      'Space Utilisation Analytics',
+      'Event & Facility Management',
+      'Sustainability Monitoring',
+      'Security & Access Control',
+    ],
   },
   {
     title: 'Smart Building',
     description: 'Intelligent building management, real-time occupancy analytics, and energy optimisation through connected digital twins.',
     icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>`,
     accent: '#fb923c',
+    items: [
+      'Real-Time Occupancy Tracking',
+      'HVAC & Energy Optimisation',
+      'Predictive Maintenance Alerts',
+      'Space Planning & Allocation',
+      'Visitor & Access Management',
+    ],
   },
   {
     title: 'Smart Infrastructure',
     description: 'Asset management, predictive maintenance, and IoT-augmented infrastructure twins for roads, bridges, and utilities.',
     icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20V8l4-4 4 4v12"/><path d="M9 4v0"/><path d="M3 20l6-12 6 12"/><path d="M15 20l3-6 3 6"/><circle cx="18" cy="9" r="3"/></svg>`,
     accent: '#34d399',
+    items: [
+      'Bridge & Road Condition Monitoring',
+      'Predictive Maintenance Scheduling',
+      'IoT Sensor Integration',
+      'Asset Lifecycle Management',
+      'Utility Network Visualisation',
+    ],
   },
 ];
 ---
@@ -43,9 +78,21 @@ const useCases = [
     <div class="bento">
       {useCases.map((uc, i) => (
         <article class={`bento__card bento__card--${i + 1}`} style={`--card-accent: ${uc.accent};`}>
-          <div class="bento__icon" set:html={uc.icon} />
-          <h3 class="bento__title">{uc.title}</h3>
-          <p class="bento__desc">{uc.description}</p>
+          <div class="bento__body">
+            <div class="bento__content">
+              <div class="bento__icon" set:html={uc.icon} />
+              <h3 class="bento__title">{uc.title}</h3>
+              <p class="bento__desc">{uc.description}</p>
+            </div>
+            <ul class="bento__list">
+              {uc.items.map((item) => (
+                <li class="bento__list-item">{item}</li>
+              ))}
+            </ul>
+          </div>
+          <button class="bento__toggle" aria-label="Show details" type="button">
+            <span class="bento__toggle-icon" />
+          </button>
           <div class="bento__glow" />
         </article>
       ))}
@@ -96,7 +143,7 @@ const useCases = [
     margin: 0 0 var(--s-10);
     font-size: var(--text-lg);
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.6;
     letter-spacing: 0.01em;
     color: var(--c-text-muted);
     text-align: left;
@@ -105,10 +152,11 @@ const useCases = [
 
   @media (min-width: 769px) {
     .use-cases__subtitle {
-      font-size: 1.1875rem;
-      line-height: 1.55;
+      font-size: var(--text-2xl);
+      line-height: 1.75;
+      color: var(--c-text-sub);
       margin-bottom: var(--s-12);
-      max-width: 48ch;
+      max-width: 60ch;
     }
   }
 
@@ -176,6 +224,31 @@ const useCases = [
     opacity: 1;
   }
 
+  .bento__body {
+    display: grid;
+  }
+
+  .bento__body > * {
+    grid-area: 1 / 1;
+  }
+
+  .bento__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  }
+
+  .bento__card.is-expanded .bento__content {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    pointer-events: none;
+  }
+
   .bento__icon {
     color: var(--card-accent);
     width: 2rem;
@@ -197,7 +270,112 @@ const useCases = [
     margin: 0;
     font-size: var(--text-base);
     color: var(--c-text-muted);
-    line-height: 1.65;
+    line-height: 1.6;
+  }
+
+  /* ── Expandable List ────────────────────────────────────────── */
+
+  .bento__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  }
+
+  .bento__card.is-expanded .bento__list {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0.08s;
+  }
+
+  .bento__list-item {
+    font-size: var(--text-base);
+    color: var(--c-text-muted);
+    line-height: 1.4;
+    padding-left: 1.125rem;
+    position: relative;
+  }
+
+  .bento__list-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--card-accent);
+    opacity: 0.7;
+  }
+
+  /* ── Toggle Button ──────────────────────────────────────────── */
+
+  .bento__toggle {
+    position: absolute;
+    bottom: clamp(0.75rem, 2vw, 1.25rem);
+    right: clamp(0.75rem, 2vw, 1.25rem);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    padding: 0;
+  }
+
+  .bento__toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: color-mix(in srgb, var(--card-accent) 50%, transparent);
+    transform: scale(1.08);
+  }
+
+  .bento__toggle-icon {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .bento__toggle-icon::before,
+  .bento__toggle-icon::after {
+    content: '';
+    position: absolute;
+    background: var(--card-accent);
+    border-radius: 1px;
+  }
+
+  .bento__toggle-icon::before {
+    width: 12px;
+    height: 1.5px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .bento__toggle-icon::after {
+    width: 1.5px;
+    height: 12px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .bento__card.is-expanded .bento__toggle-icon {
+    transform: rotate(45deg);
   }
 
   /* Featured cards get larger titles on desktop */
@@ -217,3 +395,15 @@ const useCases = [
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll('.bento__toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.bento__card');
+      if (!card) return;
+      const expanding = !card.classList.contains('is-expanded');
+      card.classList.toggle('is-expanded');
+      btn.setAttribute('aria-label', expanding ? 'Hide details' : 'Show details');
+    });
+  });
+</script>

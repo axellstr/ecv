@@ -1,34 +1,43 @@
 ---
+import { Image } from 'astro:assets';
+
+import imgOne from '../assets/services/one.png';
+import imgData from '../assets/services/data.png';
+import imgSim from '../assets/services/sim.png';
+import imgCy from '../assets/services/cy.png';
+import imgEstate from '../assets/services/estate.png';
+import imgGeo from '../assets/services/geo.png';
+
 const services = [
   {
     title: '3D Reconstruction',
     description: '3D Reconstruction of an area, individual building or smaller scale objects using Laser Scanning and Terrestrial and Aerial Photogrammetry processes.',
-    image: '/one.png',
+    image: imgOne,
   },
   {
     title: 'Data Visualization',
     description: 'Data visualization of IOT connected devices and sensors – augmentation of generated 3D models through dynamic and static data and metadata.',
-    image: '/data.png',
+    image: imgData,
   },
   {
     title: 'Simulations',
     description: 'Capability to run a series of simulation on the generated models, including crowd, traffic weather, light and more.',
-    image: '/sim.png',
+    image: imgSim,
   },
   {
     title: 'Cultural Heritage',
     description: 'Heritage site capture and documentation.',
-    image: '/cy.png',
+    image: imgCy,
   },
   {
     title: 'AR/VR Estate',
     description: 'Augmented and virtual reality solutions for real estate visualization, virtual property tours, and immersive showcases.',
-    image: '/estate.png',
+    image: imgEstate,
   },
   {
     title: 'Interactive Geospatial Models',
     description: 'Generation of Interactive models for wide range of applications.',
-    image: '/geo.png',
+    image: imgGeo,
   },
 ];
 ---
@@ -44,11 +53,14 @@ const services = [
       {services.map((service) => (
         <li class="services__item">
           <div class="services__item-image">
-            {service.image ? (
-              <img src={service.image} alt={service.title} loading="lazy" />
-            ) : (
-              <div class="services__item-image-placeholder" aria-hidden="true" />
-            )}
+            <Image
+              src={service.image}
+              alt={service.title}
+              widths={[400, 600, 800]}
+              sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 30vw"
+              loading="lazy"
+              class="services__item-img"
+            />
           </div>
           <div class="services__item-content">
             <h3 class="services__item-title">{service.title}</h3>
@@ -113,7 +125,7 @@ const services = [
     margin: 0 0 var(--s-10);
     font-size: var(--text-lg);
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.6;
     letter-spacing: 0.01em;
     color: var(--c-text-muted);
     max-width: 42ch;
@@ -121,11 +133,11 @@ const services = [
 
   @media (min-width: 769px) {
     .services__description {
-      font-size: 1.1875rem;
-      line-height: 1.55;
-      color: var(--c-text);
+      font-size: var(--text-2xl);
+      line-height: 1.75;
+      color: var(--c-text-sub);
       margin-bottom: var(--s-12);
-      max-width: 48ch;
+      max-width: 60ch;
     }
   }
 

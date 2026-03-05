@@ -1,11 +1,10 @@
 ---
-import heroSvg from '../assets/hero-illustration.svg?raw';
 ---
 
 <section class="hero">
   <!-- Full-bleed visual on desktop -->
   <div class="hero__visual">
-    <div class="hero__image-wrap" set:html={heroSvg} />
+    <div class="hero__image-wrap" id="hero-visual"></div>
   </div>
   <div class="hero__content">
     <p class="hero__eyebrow">The Future of Digital Experiences</p>
@@ -212,3 +211,15 @@ import heroSvg from '../assets/hero-illustration.svg?raw';
     }
   }
 </style>
+
+<script>
+  const container = document.getElementById('hero-visual');
+  if (container) {
+    fetch('/images/hero-illustration.svg')
+      .then((r) => r.text())
+      .then((svg) => {
+        container.innerHTML = svg;
+      })
+      .catch(() => {});
+  }
+</script>

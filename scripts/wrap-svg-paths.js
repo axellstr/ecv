@@ -10,8 +10,8 @@ import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
-const inputPath = join(root, 'public', 'download.svg');
-const outputPath = join(root, 'src', 'assets', 'hero-illustration.svg');
+const inputPath = join(root, 'scripts', 'sources', 'download.svg');
+const outputPath = join(root, 'public', 'images', 'hero-illustration.svg');
 
 const svg = readFileSync(inputPath, 'utf8');
 

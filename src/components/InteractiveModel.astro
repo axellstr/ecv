@@ -8,16 +8,72 @@
       Explore our 3D models directly in your browser. Rotate, zoom, and inspect every detail—
       from geospatial environments to architectural assets.
     </p>
-    <div class="interactive-model__viewport" id="modelViewport">
-      <canvas id="modelCanvas"></canvas>
-      <div class="interactive-model__loader" id="modelLoader">
-        <div class="interactive-model__spinner"></div>
-        <span class="interactive-model__loader-text" id="modelLoaderText">Loading model…</span>
+    <div class="interactive-model__viewport-wrap">
+      <div class="interactive-model__viewport" id="modelViewport">
+        <canvas id="modelCanvas"></canvas>
+        <div class="interactive-model__loader" id="modelLoader">
+          <div class="interactive-model__spinner"></div>
+          <span class="interactive-model__loader-text" id="modelLoaderText">Loading model…</span>
+        </div>
+        <div class="interactive-model__controls">
+          <span>Drag to rotate</span>
+          <span>Scroll to zoom</span>
+          <span>Right-drag to pan</span>
+        </div>
+
+        <!-- Info toggle stays inside viewport -->
+        <button class="interactive-model__info-toggle" id="infoToggle" aria-label="Toggle model info">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+        </button>
       </div>
-      <div class="interactive-model__controls">
-        <span>Drag to rotate</span>
-        <span>Scroll to zoom</span>
-        <span>Right-drag to pan</span>
+
+      <!-- Info panel lives outside viewport for mobile flow -->
+      <div class="interactive-model__info-panel" id="infoPanel">
+        <div class="info-panel__header">
+          <h3 class="info-panel__title">Leventis Municipal Museum</h3>
+          <p class="info-panel__location">Nicosia, Cyprus</p>
+          <p class="info-panel__desc">Digital twin via photogrammetric reconstruction</p>
+        </div>
+
+        <div class="info-panel__section">
+          <span class="info-panel__label">Statistics</span>
+          <div class="info-panel__stats">
+            <div class="info-panel__stat">
+              <span class="info-panel__stat-value" id="statVertices">—</span>
+              <span class="info-panel__stat-key">Vertices</span>
+            </div>
+            <div class="info-panel__stat">
+              <span class="info-panel__stat-value" id="statTriangles">—</span>
+              <span class="info-panel__stat-key">Triangles</span>
+            </div>
+            <div class="info-panel__stat">
+              <span class="info-panel__stat-value" id="statMeshes">—</span>
+              <span class="info-panel__stat-key">Meshes</span>
+            </div>
+            <div class="info-panel__stat">
+              <span class="info-panel__stat-value" id="statMaterials">—</span>
+              <span class="info-panel__stat-key">Materials</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-panel__section">
+          <span class="info-panel__label">Dimensions</span>
+          <p class="info-panel__dimensions" id="statDimensions">—</p>
+        </div>
+
+        <div class="info-panel__section">
+          <span class="info-panel__label">Controls</span>
+          <div class="info-panel__actions">
+            <button class="info-panel__btn" id="btnWireframe">Wireframe</button>
+            <button class="info-panel__btn" id="btnGrid">Grid</button>
+            <button class="info-panel__btn" id="btnReset">Reset View</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -54,6 +110,7 @@
     font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
     font-weight: 400;
     letter-spacing: -0.01em;
+    text-transform: uppercase;
     margin: 0 0 var(--s-6);
     color: var(--c-text);
   }
@@ -69,23 +126,32 @@
   .interactive-model__description {
     margin: 0 0 var(--s-10);
     font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
     color: var(--c-text-muted);
-    line-height: 1.75;
+    max-width: 42ch;
   }
 
   @media (min-width: 769px) {
     .interactive-model__description {
-      font-size: var(--text-xl);
-      line-height: 1.8;
-      color: var(--c-text);
+      font-size: var(--text-2xl);
+      line-height: 1.75;
+      color: var(--c-text-sub);
+      margin-bottom: var(--s-12);
+      max-width: 60ch;
     }
   }
 
   /* ── 3D Viewport ────────────────────────────────────────────────────── */
 
-  .interactive-model__viewport {
+  .interactive-model__viewport-wrap {
     position: relative;
     margin-top: var(--s-8);
+  }
+
+  .interactive-model__viewport {
+    position: relative;
     border-radius: var(--r-lg);
     overflow: hidden;
     border: 1px solid var(--c-border);
@@ -177,20 +243,259 @@
       font-size: 0.625rem;
     }
   }
+
+  /* ── Info Toggle Button ───────────────────────────────────────────────── */
+
+  .interactive-model__info-toggle {
+    position: absolute;
+    top: var(--s-3);
+    right: var(--s-3);
+    z-index: 3;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .interactive-model__info-toggle:hover {
+    background: rgba(10, 10, 10, 0.85);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .interactive-model__info-toggle.is-active {
+    background: rgba(217, 255, 0, 0.12);
+    border-color: rgba(217, 255, 0, 0.4);
+    color: #d9ff00;
+  }
+
+  /* ── Info Panel ───────────────────────────────────────────────────────── */
+
+  .interactive-model__info-panel {
+    position: absolute;
+    top: calc(var(--s-3) + 36px + var(--s-2));
+    right: var(--s-3);
+    z-index: 3;
+    width: 264px;
+    background: rgba(10, 10, 10, 0.78);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--r-lg);
+    padding: var(--s-4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+  }
+
+  .interactive-model__info-panel.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Panel header */
+  .info-panel__header {
+    margin-bottom: var(--s-4);
+    padding-bottom: var(--s-3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .info-panel__title {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: #fff;
+    margin: 0 0 2px;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+  }
+
+  .info-panel__location {
+    font-size: 0.6875rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 0 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .info-panel__desc {
+    font-size: 0.6875rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Sections */
+  .info-panel__section {
+    margin-bottom: var(--s-3);
+  }
+
+  .info-panel__section:last-child {
+    margin-bottom: 0;
+  }
+
+  .info-panel__label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.625rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--s-2);
+  }
+
+  /* Stats grid */
+  .info-panel__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-2);
+  }
+
+  .info-panel__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .info-panel__stat-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+
+  .info-panel__stat-key {
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.02em;
+  }
+
+  /* Dimensions */
+  .info-panel__dimensions {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  /* Control buttons */
+  .info-panel__actions {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+  }
+
+  .info-panel__btn {
+    font-family: var(--font-heading);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .info-panel__btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .info-panel__btn.is-active {
+    background: rgba(217, 255, 0, 0.1);
+    color: #d9ff00;
+    border-color: rgba(217, 255, 0, 0.35);
+  }
+
+  /* ── Info Panel Mobile ────────────────────────────────────────────────── */
+
+  @media (max-width: 768px) {
+    .interactive-model__info-panel {
+      position: static;
+      width: 100%;
+      top: auto;
+      right: auto;
+      margin-top: var(--s-3);
+      border-radius: var(--r-lg);
+      transform: none;
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 var(--s-4);
+      border-color: transparent;
+      transition: max-height 0.35s ease, opacity 0.25s ease,
+                  padding 0.35s ease, border-color 0.25s ease;
+    }
+
+    .interactive-model__info-panel.is-visible {
+      max-height: 600px;
+      padding: var(--s-4);
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: none;
+    }
+
+    .interactive-model__info-toggle {
+      top: var(--s-2);
+      right: var(--s-2);
+      width: 32px;
+      height: 32px;
+    }
+
+    .interactive-model__info-toggle svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
 </style>
 
 <script>
-  import * as THREE from 'three';
-  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
   const viewport = document.getElementById('modelViewport') as HTMLDivElement;
   const canvas = document.getElementById('modelCanvas') as HTMLCanvasElement;
   const loader = document.getElementById('modelLoader') as HTMLDivElement;
   const loaderText = document.getElementById('modelLoaderText') as HTMLSpanElement;
 
+  const infoToggle = document.getElementById('infoToggle') as HTMLButtonElement;
+  const infoPanel = document.getElementById('infoPanel') as HTMLDivElement;
+
+  if (infoToggle && infoPanel) {
+    infoToggle.addEventListener('click', () => {
+      const open = infoPanel.classList.toggle('is-visible');
+      infoToggle.classList.toggle('is-active', open);
+    });
+  }
+
   if (viewport && canvas) {
-    const renderer = new THREE.WebGLRenderer({
+    const observer = new IntersectionObserver(
+    async (entries) => {
+      const [entry] = entries;
+      if (!entry?.isIntersecting) return;
+      observer.disconnect();
+
+      const THREE = await import('three');
+      const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
+      const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+
+      const renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
       alpha: false,
@@ -205,7 +510,6 @@
 
     const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 2000);
 
-    // Lighting
     const ambient = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambient);
 
@@ -221,7 +525,6 @@
     const hemiLight = new THREE.HemisphereLight(0xddeeff, 0x222211, 0.6);
     scene.add(hemiLight);
 
-    // OrbitControls
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
     controls.dampingFactor = 0.06;
@@ -242,14 +545,14 @@
     }
     resize();
 
-    // Load model
+    let gridHelper: InstanceType<typeof THREE.GridHelper> | null = null;
+
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(
-      '/leventis.glb',
+      '/models/leventis.glb',
       (gltf) => {
         const model = gltf.scene;
 
-        // Strip grid helpers, axis helpers, and standalone line objects exported by 3D software
         const toRemove: THREE.Object3D[] = [];
         model.traverse((child) => {
           if (
@@ -266,7 +569,6 @@
 
         scene.add(model);
 
-        // Auto-center and frame
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
@@ -278,7 +580,7 @@
 
         const fov = camera.fov * (Math.PI / 180);
         let cameraDistance = (maxDim / 2) / Math.tan(fov / 2);
-        cameraDistance *= 1.2;
+        cameraDistance *= 0.95;
 
         camera.position.set(
           cameraDistance * 0.7,
@@ -290,6 +592,83 @@
         controls.minDistance = cameraDistance * 0.15;
         controls.maxDistance = cameraDistance * 4;
         controls.update();
+
+        const initialCamPos = camera.position.clone();
+        const initialTarget = controls.target.clone();
+
+        // --- Extract model statistics ---
+        let vertexCount = 0;
+        let triangleCount = 0;
+        let meshCount = 0;
+        const materialsSet = new Set<THREE.Material>();
+
+        model.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            meshCount++;
+            const geo = child.geometry as THREE.BufferGeometry;
+            vertexCount += geo.attributes.position?.count ?? 0;
+            triangleCount += geo.index
+              ? geo.index.count / 3
+              : (geo.attributes.position?.count ?? 0) / 3;
+            const mats = Array.isArray(child.material) ? child.material : [child.material];
+            mats.forEach((m) => materialsSet.add(m));
+          }
+        });
+
+        const fmt = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(Math.round(n));
+
+        const elVertices = document.getElementById('statVertices');
+        const elTriangles = document.getElementById('statTriangles');
+        const elMeshes = document.getElementById('statMeshes');
+        const elMaterials = document.getElementById('statMaterials');
+        const elDimensions = document.getElementById('statDimensions');
+
+        if (elVertices) elVertices.textContent = fmt(vertexCount);
+        if (elTriangles) elTriangles.textContent = fmt(triangleCount);
+        if (elMeshes) elMeshes.textContent = String(meshCount);
+        if (elMaterials) elMaterials.textContent = String(materialsSet.size);
+        if (elDimensions) {
+          elDimensions.textContent = `${size.x.toFixed(1)} × ${size.y.toFixed(1)} × ${size.z.toFixed(1)} units`;
+        }
+
+        // --- Wire interactive controls ---
+        const btnWireframe = document.getElementById('btnWireframe') as HTMLButtonElement | null;
+        const btnGrid = document.getElementById('btnGrid') as HTMLButtonElement | null;
+        const btnReset = document.getElementById('btnReset') as HTMLButtonElement | null;
+
+        let wireframeOn = false;
+        btnWireframe?.addEventListener('click', () => {
+          wireframeOn = !wireframeOn;
+          btnWireframe.classList.toggle('is-active', wireframeOn);
+          model.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+              const mats = Array.isArray(child.material) ? child.material : [child.material];
+              mats.forEach((m) => { m.wireframe = wireframeOn; });
+            }
+          });
+        });
+
+        let gridOn = false;
+        btnGrid?.addEventListener('click', () => {
+          gridOn = !gridOn;
+          btnGrid.classList.toggle('is-active', gridOn);
+          if (gridOn) {
+            const gridSize = Math.ceil(maxDim * 1.5);
+            gridHelper = new THREE.GridHelper(gridSize, Math.round(gridSize / 2), 0x444444, 0x222222);
+            gridHelper.position.y = -(size.y / 2);
+            scene.add(gridHelper);
+          } else if (gridHelper) {
+            scene.remove(gridHelper);
+            gridHelper.dispose();
+            gridHelper = null;
+          }
+        });
+
+        btnReset?.addEventListener('click', () => {
+          camera.position.copy(initialCamPos);
+          controls.target.copy(initialTarget);
+          controls.update();
+        });
 
         if (loader) {
           loader.classList.add('is-hidden');
@@ -309,7 +688,6 @@
       }
     );
 
-    // Render loop
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
@@ -317,8 +695,12 @@
     }
     animate();
 
-    // Responsive resize
     const ro = new ResizeObserver(resize);
     ro.observe(viewport);
+    },
+    { rootMargin: '100px' }
+  );
+
+    observer.observe(viewport);
   }
 </script>
