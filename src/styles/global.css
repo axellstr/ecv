@@ -95,7 +95,7 @@ main {
 }
 
 ::selection {
-  background: rgb(89, 255, 0);
+  background: rgba(255, 247, 0, 0.379);
   color: #fff;
 }
 
