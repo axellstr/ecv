@@ -8,6 +8,17 @@
       Explore our 3D models directly in your browser. Rotate, zoom, and inspect every detail—
       from geospatial environments to architectural assets.
     </p>
+
+    <!-- Model tabs (outside viewport) -->
+    <div class="interactive-model__tabs" role="tablist" aria-label="Select building model">
+      <button class="interactive-model__tab is-active" role="tab" aria-selected="true" data-model="leventis" id="tabLeventis">
+        University House Leventis
+      </button>
+      <button class="interactive-model__tab" role="tab" aria-selected="false" data-model="ctf01" id="tabCtf01">
+        Common Teaching Facilities 1 (CTF01)
+      </button>
+    </div>
+
     <div class="interactive-model__viewport-wrap">
       <div class="interactive-model__viewport" id="modelViewport">
         <canvas id="modelCanvas"></canvas>
@@ -15,6 +26,69 @@
           <div class="interactive-model__spinner"></div>
           <span class="interactive-model__loader-text" id="modelLoaderText">Loading model…</span>
         </div>
+        <div class="interactive-model__solar-tooltip" id="solarTooltip">
+          <span class="solar-tooltip__title">Solar Energy System</span>
+          <span class="solar-tooltip__desc">Click to explore the photovoltaic array</span>
+        </div>
+
+        <div class="interactive-model__solar-hotspot" id="solarHotspot">
+          <div class="solar-hotspot__dot"></div>
+          <div class="solar-hotspot__ring"></div>
+        </div>
+
+        <div class="interactive-model__solar-dash" id="solarDash">
+          <div class="solar-dash__header">
+            <div class="solar-dash__live">
+              <span class="solar-dash__live-dot"></span>
+              <span class="solar-dash__live-label">LIVE</span>
+            </div>
+            <span class="solar-dash__title">Solar Energy System</span>
+            <button class="solar-dash__close" id="solarDashClose" aria-label="Close">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          <div class="solar-dash__grid">
+            <div class="solar-dash__stat">
+              <div class="solar-dash__stat-row">
+                <span class="solar-dash__stat-value" id="solarOutput">0.0</span>
+                <span class="solar-dash__stat-unit">kW</span>
+              </div>
+              <span class="solar-dash__stat-label">Current Output</span>
+            </div>
+            <div class="solar-dash__stat">
+              <div class="solar-dash__stat-row">
+                <span class="solar-dash__stat-value" id="solarPerM2">0.0</span>
+                <span class="solar-dash__stat-unit">W/m²</span>
+              </div>
+              <span class="solar-dash__stat-label">Power per m²</span>
+            </div>
+            <div class="solar-dash__stat solar-dash__stat--wide">
+              <div class="solar-dash__stat-row">
+                <span class="solar-dash__stat-value" id="solarTotal">0.0</span>
+                <span class="solar-dash__stat-unit">kWh</span>
+              </div>
+              <span class="solar-dash__stat-label">Total Energy Generated</span>
+            </div>
+            <div class="solar-dash__stat">
+              <div class="solar-dash__stat-row">
+                <span class="solar-dash__stat-value" id="solarEff">0.0</span>
+                <span class="solar-dash__stat-unit">%</span>
+              </div>
+              <span class="solar-dash__stat-label">Panel Efficiency</span>
+            </div>
+          </div>
+          <div class="solar-dash__footer">
+            <span>48 Panels</span>
+            <span class="solar-dash__footer-sep">·</span>
+            <span>14.4 kWp</span>
+            <span class="solar-dash__footer-sep">·</span>
+            <span>96 m²</span>
+          </div>
+        </div>
+
         <div class="interactive-model__controls">
           <span>Drag to rotate</span>
           <span>Scroll to zoom</span>
@@ -34,14 +108,14 @@
       <!-- Info panel lives outside viewport for mobile flow -->
       <div class="interactive-model__info-panel" id="infoPanel">
         <div class="info-panel__header">
-          <h3 class="info-panel__title">University House Anastasios G. Leventis</h3>
-          <p class="info-panel__location">Nicosia, Cyprus</p>
-          <p class="info-panel__desc">Digital Twin Reconstruction: Photogrammetry and BIM documentation</p>
+          <h3 class="info-panel__title" id="infoPanelTitle">University House Anastasios G. Leventis</h3>
+          <p class="info-panel__location" id="infoPanelLocation">Nicosia, Cyprus</p>
+          <p class="info-panel__desc" id="infoPanelDesc">Digital Twin Reconstruction: Photogrammetry and BIM documentation</p>
         </div>
 
-        <div class="info-panel__section">
+        <div class="info-panel__section" id="infoPanelStatsSection">
           <span class="info-panel__label">Statistics</span>
-          <div class="info-panel__stats">
+          <div class="info-panel__stats" id="infoPanelStats">
             <div class="info-panel__stat">
               <span class="info-panel__stat-value">9527.2</span>
               <span class="info-panel__stat-key">m² Indoor</span>
@@ -68,6 +142,15 @@
             <button class="info-panel__btn" id="btnReset">Reset View</button>
           </div>
         </div>
+
+        <div class="info-panel__section">
+          <span class="info-panel__label">Viewpoints</span>
+          <div class="info-panel__actions">
+            <button class="info-panel__btn" id="btnViewIso">Isometric</button>
+            <button class="info-panel__btn" id="btnViewFront">Front</button>
+            <button class="info-panel__btn" id="btnViewTop">Top</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -79,6 +162,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgb(0, 0, 0);
+    border-top: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-border);
   }
 
   @media (max-width: 480px) {
@@ -135,6 +221,49 @@
       margin-bottom: var(--s-12);
       max-width: 60ch;
     }
+  }
+
+  /* ── Model Tabs ──────────────────────────────────────────────────────── */
+
+  .interactive-model__tabs {
+    display: flex;
+    gap: var(--s-2);
+    margin-top: var(--s-6);
+    margin-bottom: var(--s-4);
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 769px) {
+    .interactive-model__tabs {
+      margin-top: var(--s-8);
+      margin-bottom: var(--s-5);
+    }
+  }
+
+  .interactive-model__tab {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 100px;
+    padding: var(--s-2) var(--s-4);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .interactive-model__tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .interactive-model__tab.is-active {
+    background: rgba(217, 255, 0, 0.12);
+    color: #d9ff00;
+    border-color: rgba(217, 255, 0, 0.4);
   }
 
   /* ── 3D Viewport ────────────────────────────────────────────────────── */
@@ -238,6 +367,341 @@
     }
   }
 
+  /* ── Solar Tooltip ────────────────────────────────────────────────────── */
+
+  .interactive-model__solar-tooltip {
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+    transform: translate(-50%, calc(-100% - 14px));
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 14px;
+    background: rgba(10, 10, 10, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--r-md);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.22s ease, visibility 0.22s ease;
+  }
+
+  .interactive-model__solar-tooltip.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .solar-tooltip__title {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #d9ff00;
+    letter-spacing: 0.03em;
+  }
+
+  .solar-tooltip__desc {
+    font-family: var(--font-heading);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 768px) {
+    .interactive-model__solar-tooltip {
+      display: none;
+    }
+  }
+
+  /* ── Solar Hotspot (mobile) ──────────────────────────────────────────── */
+
+  .interactive-model__solar-hotspot {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .interactive-model__solar-hotspot {
+      display: block;
+      position: absolute;
+      z-index: 4;
+      pointer-events: none;
+      left: 0;
+      top: 0;
+      will-change: transform;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .interactive-model__solar-hotspot.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .solar-hotspot__dot {
+      width: 10px;
+      height: 10px;
+      background: #d9ff00;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(217, 255, 0, 0.4);
+    }
+
+    .solar-hotspot__ring {
+      position: absolute;
+      inset: -6px;
+      border: 1.5px solid rgba(217, 255, 0, 0.45);
+      border-radius: 50%;
+      animation: solar-hotspot-pulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes solar-hotspot-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(2.2); opacity: 0; }
+    }
+  }
+
+  /* ── Solar Dashboard ────────────────────────────────────────────────── */
+
+  .interactive-model__solar-dash {
+    position: absolute;
+    top: var(--s-3);
+    left: var(--s-3);
+    z-index: 5;
+    width: 280px;
+    background: rgba(10, 10, 10, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--r-lg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: var(--s-4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-12px);
+    transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+  }
+
+  .interactive-model__solar-dash.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .solar-dash__header {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    margin-bottom: var(--s-3);
+    padding-bottom: var(--s-3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .solar-dash__live {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px 2px 6px;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    border-radius: 100px;
+    flex-shrink: 0;
+  }
+
+  .solar-dash__live-dot {
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: solar-live-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes solar-live-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .solar-dash__live-label {
+    font-family: var(--font-heading);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    color: #22c55e;
+    letter-spacing: 0.06em;
+  }
+
+  .solar-dash__title {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: #fff;
+    flex: 1;
+    letter-spacing: 0.01em;
+  }
+
+  .solar-dash__close {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .solar-dash__close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .solar-dash__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-3);
+    margin-bottom: var(--s-3);
+  }
+
+  .solar-dash__stat--wide {
+    grid-column: 1 / -1;
+  }
+
+  .solar-dash__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .solar-dash__stat-row {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+  }
+
+  .solar-dash__stat-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .solar-dash__stat--wide .solar-dash__stat-value {
+    font-size: var(--text-xl);
+    color: #d9ff00;
+  }
+
+  .solar-dash__stat-unit {
+    font-family: var(--font-heading);
+    font-size: 0.625rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.02em;
+  }
+
+  .solar-dash__stat-label {
+    font-family: var(--font-heading);
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.02em;
+  }
+
+  .solar-dash__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding-top: var(--s-3);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-family: var(--font-heading);
+    font-size: 0.625rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.02em;
+  }
+
+  .solar-dash__footer-sep {
+    color: rgba(255, 255, 255, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    .interactive-model__solar-dash {
+      width: auto;
+      max-width: calc(100% - var(--s-2) * 2);
+      top: var(--s-2);
+      left: var(--s-2);
+      bottom: auto;
+      transform: translateY(-6px);
+      padding: 8px 10px;
+      border-radius: var(--r-md);
+    }
+
+    .interactive-model__solar-dash.is-visible {
+      transform: translateY(0);
+    }
+
+    .solar-dash__header {
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      gap: 6px;
+    }
+
+    .solar-dash__title {
+      font-size: 0.6875rem;
+    }
+
+    .solar-dash__close {
+      width: 24px;
+      height: 24px;
+    }
+
+    .solar-dash__close svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .solar-dash__grid {
+      gap: 6px;
+      margin-bottom: 0;
+    }
+
+    .solar-dash__stat--wide {
+      grid-column: auto;
+    }
+
+    .solar-dash__stat-row {
+      gap: 2px;
+    }
+
+    .solar-dash__stat-value {
+      font-size: 0.8125rem;
+    }
+
+    .solar-dash__stat--wide .solar-dash__stat-value {
+      font-size: 0.875rem;
+      color: #d9ff00;
+    }
+
+    .solar-dash__stat-unit {
+      font-size: 0.5625rem;
+    }
+
+    .solar-dash__stat-label {
+      font-size: 0.5625rem;
+    }
+
+    .solar-dash__footer {
+      display: none;
+    }
+  }
+
   /* ── Info Toggle Button ───────────────────────────────────────────────── */
 
   .interactive-model__info-toggle {
@@ -280,9 +744,7 @@
     right: var(--s-3);
     z-index: 3;
     width: 340px;
-    background: rgba(10, 10, 10, 0.78);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgb(10, 10, 10);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--r-lg);
     padding: var(--s-4);
@@ -360,7 +822,7 @@
 
   .info-panel__stat {
     display: flex;
-    flex-direction: column;
+    flex-direction: column!important;
     gap: 2px;
   }
 
@@ -462,6 +924,42 @@
   const infoToggle = document.getElementById('infoToggle') as HTMLButtonElement;
   const infoPanel = document.getElementById('infoPanel') as HTMLDivElement;
 
+  const MODEL_CONFIG: Record<string, {
+    path: string;
+    title: string;
+    location: string;
+    desc: string;
+    stats: { value: string; key: string }[];
+    hasSolar: boolean;
+  }> = {
+    leventis: {
+      path: '/models/leventis.glb',
+      title: 'University House Anastasios G. Leventis',
+      location: 'Nicosia, Cyprus',
+      desc: 'Digital Twin Reconstruction: Photogrammetry and BIM documentation',
+      stats: [
+        { value: '9527.2', key: 'm² Indoor' },
+        { value: '282', key: 'Spaces & Offices' },
+        { value: '1200+', key: 'm² Outdoor Area' },
+        { value: '3', key: 'Staircases' },
+      ],
+      hasSolar: true,
+    },
+    ctf01: {
+      path: '/models/XOD01.glb',
+      title: 'Common Teaching Facilities 1 (CTF01)',
+      location: 'University of Cyprus, Nicosia, Cyprus',
+      desc: 'Digital Twin Reconstruction: Photogrammetry and BIM documentation',
+      stats: [
+        { value: '4850', key: 'm² Indoor' },
+        { value: '18', key: 'Spaces & Offices' },
+        { value: '850+', key: 'm² Outdoor Area' },
+        { value: '4', key: 'Staircases' },
+      ],
+      hasSolar: false,
+    },
+  };
+
   if (infoToggle && infoPanel) {
     infoToggle.addEventListener('click', () => {
       const open = infoPanel.classList.toggle('is-visible');
@@ -479,10 +977,11 @@
       const THREE = await import('three');
       const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
       const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+      const { DRACOLoader } = await import('three/addons/loaders/DRACOLoader.js');
 
       const renderer = new THREE.WebGLRenderer({
       canvas,
-      antialias: true,
+      antialias: matchMedia('(min-width: 769px)').matches,
       alpha: false,
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -521,26 +1020,137 @@
     controls.rotateSpeed = 0.6;
     controls.zoomSpeed = 1.0;
 
+    let cachedVW = viewport.clientWidth;
+    let cachedVH = viewport.clientHeight;
+
     function resize() {
       const w = viewport.clientWidth;
       const h = viewport.clientHeight;
+      cachedVW = w;
+      cachedVH = h;
       renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     }
     resize();
 
-    let resetAnim: { start: number; duration: number; fromPos: any; fromTarget: any } | null = null;
+    let resetAnim: {
+      start: number;
+      duration: number;
+      fromPos: any;
+      fromTarget: any;
+      toPos: any;
+      toTarget: any;
+    } | null = null;
     let initialCamPos: any = null;
     let initialTarget: any = null;
+    let lastCullUpdate = 0;
+    const smallMeshDistanceCulling: { mesh: any; center: any; hideDistanceSq: number }[] = [];
+    const updateDistanceCulling = () => {
+      const camPos = camera.position;
+      for (const item of smallMeshDistanceCulling) {
+        const isFar = camPos.distanceToSquared(item.center) > item.hideDistanceSq;
+        item.mesh.visible = !isFar;
+      }
+    };
 
+    let onPointerMove: ((e: PointerEvent) => void) | null = null;
+    let hideTooltip: (() => void) | null = null;
+    let updateHotspotPosition: (() => void) | null = null;
+    let currentModelId = 'leventis';
+    let currentModel: InstanceType<typeof THREE.Object3D> | null = null;
+    let currentGrid: InstanceType<typeof THREE.GridHelper> | null = null;
+    let currentAllMeshes: InstanceType<typeof THREE.Mesh>[] = [];
+    let deactivateSolar: (() => void) | null = null;
+    let removeSolarListeners: (() => void) | null = null;
+    const controlHandlers: { remove: () => void }[] = [];
+
+    function updateInfoPanel(modelId: string) {
+      const config = MODEL_CONFIG[modelId];
+      if (!config) return;
+      const titleEl = document.getElementById('infoPanelTitle');
+      const locationEl = document.getElementById('infoPanelLocation');
+      const descEl = document.getElementById('infoPanelDesc');
+      const statsEl = document.getElementById('infoPanelStats');
+      if (titleEl) titleEl.textContent = config.title;
+      if (locationEl) locationEl.textContent = config.location;
+      if (descEl) descEl.textContent = config.desc;
+      if (statsEl) {
+        statsEl.innerHTML = config.stats.map(
+          (s) => `<div class="info-panel__stat"><span class="info-panel__stat-value">${s.value}</span><span class="info-panel__stat-key">${s.key}</span></div>`
+        ).join('');
+      }
+    }
+
+    function setActiveTab(modelId: string) {
+      document.querySelectorAll('.interactive-model__tab').forEach((tab) => {
+        const btn = tab as HTMLButtonElement;
+        const isActive = btn.dataset.model === modelId;
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-selected', String(isActive));
+      });
+    }
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
     const gltfLoader = new GLTFLoader();
-    gltfLoader.load(
-      '/models/leventis.glb',
+    gltfLoader.setDRACOLoader(dracoLoader);
+
+    function loadModel(modelId: string) {
+      const config = MODEL_CONFIG[modelId];
+      if (!config) return;
+
+      if (deactivateSolar) {
+        deactivateSolar();
+        deactivateSolar = null;
+      }
+      if (removeSolarListeners) {
+        removeSolarListeners();
+        removeSolarListeners = null;
+      }
+      updateHotspotPosition = null;
+
+      controlHandlers.forEach((h) => h.remove());
+      controlHandlers.length = 0;
+
+      document.getElementById('btnWireframe')?.classList.remove('is-active');
+
+      if (currentModel) {
+        scene.remove(currentModel);
+        currentModel.traverse((obj: any) => {
+          if (obj.isMesh) {
+            obj.geometry?.dispose();
+            const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+            mats.forEach((m: any) => m?.dispose?.());
+          }
+        });
+        currentModel = null;
+      }
+      if (currentGrid) {
+        scene.remove(currentGrid);
+        (currentGrid.material as InstanceType<typeof THREE.Material>)?.dispose?.();
+        currentGrid = null;
+      }
+
+      currentAllMeshes = [];
+      smallMeshDistanceCulling.length = 0;
+      currentModelId = modelId;
+      updateInfoPanel(modelId);
+      setActiveTab(modelId);
+
+      if (loader) {
+        loader.classList.remove('is-hidden');
+        loaderText!.textContent = 'Loading model…';
+      }
+
+      gltfLoader.load(
+      config.path,
       (gltf) => {
         const model = gltf.scene;
+        currentModel = model;
 
         const toRemove: InstanceType<typeof THREE.Object3D>[] = [];
+        const allMeshes: InstanceType<typeof THREE.Mesh>[] = [];
         model.traverse((child) => {
           if (
             child instanceof THREE.GridHelper ||
@@ -551,8 +1161,12 @@
           ) {
             toRemove.push(child);
           }
+          if (child instanceof THREE.Mesh) {
+            allMeshes.push(child);
+          }
         });
         toRemove.forEach((obj) => obj.parent?.remove(obj));
+        currentAllMeshes = allMeshes;
 
         scene.add(model);
 
@@ -562,6 +1176,21 @@
         const maxDim = Math.max(size.x, size.y, size.z);
 
         model.position.sub(center);
+
+        const gridSpan = Math.max(size.x, size.z) * 2.5;
+        const gridDivisions = 40;
+        const grid = new THREE.GridHelper(
+          gridSpan,
+          gridDivisions,
+          new THREE.Color(0xffffff),
+          new THREE.Color(0xffffff)
+        );
+        grid.position.y = -size.y / 3;
+        (grid.material as InstanceType<typeof THREE.Material>).opacity = 0.07;
+        (grid.material as InstanceType<typeof THREE.Material>).transparent = true;
+        (grid.material as InstanceType<typeof THREE.Material>).depthWrite = false;
+        scene.add(grid);
+        currentGrid = grid;
 
         controls.target.set(0, 0, 0);
 
@@ -583,30 +1212,347 @@
         initialCamPos = camera.position.clone();
         initialTarget = controls.target.clone();
 
-        // --- Extract model statistics ---
+        const setCameraAnimation = (
+          toPosition: any,
+          toTarget: any,
+          duration = 850
+        ) => {
+          resetAnim = {
+            start: performance.now(),
+            duration,
+            fromPos: camera.position.clone(),
+            fromTarget: controls.target.clone(),
+            toPos: toPosition.clone(),
+            toTarget: toTarget.clone(),
+          };
+        };
+
+        const viewpoints = {
+          iso: {
+            position: new THREE.Vector3(
+              cameraDistance * 0.72,
+              cameraDistance * 0.5,
+              cameraDistance * 0.72
+            ),
+            target: new THREE.Vector3(0, 0, 0),
+          },
+          front: {
+            position: new THREE.Vector3(0, cameraDistance * 0.22, cameraDistance * 1.18),
+            target: new THREE.Vector3(0, 0, 0),
+          },
+          top: {
+            position: new THREE.Vector3(0, cameraDistance * 1.32, cameraDistance * 0.06),
+            target: new THREE.Vector3(0, 0, 0),
+          },
+        };
+
+        const btnViewIso = document.getElementById('btnViewIso') as HTMLButtonElement | null;
+        const btnViewFront = document.getElementById('btnViewFront') as HTMLButtonElement | null;
+        const btnViewTop = document.getElementById('btnViewTop') as HTMLButtonElement | null;
+
+        const viewIsoHandler = () => setCameraAnimation(viewpoints.iso.position, viewpoints.iso.target);
+        const viewFrontHandler = () => setCameraAnimation(viewpoints.front.position, viewpoints.front.target);
+        const viewTopHandler = () => setCameraAnimation(viewpoints.top.position, viewpoints.top.target);
+        btnViewIso?.addEventListener('click', viewIsoHandler);
+        btnViewFront?.addEventListener('click', viewFrontHandler);
+        btnViewTop?.addEventListener('click', viewTopHandler);
+        controlHandlers.push({
+          remove: () => {
+            btnViewIso?.removeEventListener('click', viewIsoHandler);
+            btnViewFront?.removeEventListener('click', viewFrontHandler);
+            btnViewTop?.removeEventListener('click', viewTopHandler);
+          },
+        });
+
+        // Hide tiny distant meshes to reduce overdraw and draw-call pressure.
+        model.updateMatrixWorld(true);
+        smallMeshDistanceCulling.length = 0;
+        const tempScale = new THREE.Vector3();
+        const tinyMeshRadius = maxDim * 0.01;
+        const minimumHideDistance = cameraDistance * 1.75;
+        for (const child of allMeshes) {
+          if (!child.geometry) continue;
+          const geometry = child.geometry;
+          if (!geometry.boundingSphere) geometry.computeBoundingSphere();
+          const sphere = geometry.boundingSphere;
+          if (!sphere) continue;
+          child.getWorldScale(tempScale);
+          const maxScale = Math.max(tempScale.x, tempScale.y, tempScale.z);
+          const worldRadius = sphere.radius * maxScale;
+          if (worldRadius > tinyMeshRadius) continue;
+          const worldCenter = sphere.center.clone();
+          child.localToWorld(worldCenter);
+          const hideDistance = Math.max(minimumHideDistance, worldRadius * 120);
+          smallMeshDistanceCulling.push({
+            mesh: child,
+            center: worldCenter,
+            hideDistanceSq: hideDistance * hideDistance,
+          });
+        }
+        lastCullUpdate = 0;
+        updateDistanceCulling();
+
+        // --- Rooftop solar-panel interactivity (Leventis only) ---
+        if (config.hasSolar) {
+        const raycaster = new THREE.Raycaster();
+        const pointerNDC = new THREE.Vector2();
+        const rooftopThresholdY = size.y * 0.35;
+        const hasHover = matchMedia('(hover: hover)').matches;
+
+        // Solar dashboard elements
+        const solarDash = document.getElementById('solarDash') as HTMLDivElement;
+        const solarDashClose = document.getElementById('solarDashClose') as HTMLButtonElement;
+        const solarOutputEl = document.getElementById('solarOutput') as HTMLSpanElement;
+        const solarPerM2El = document.getElementById('solarPerM2') as HTMLSpanElement;
+        const solarTotalEl = document.getElementById('solarTotal') as HTMLSpanElement;
+        const solarEffEl = document.getElementById('solarEff') as HTMLSpanElement;
+
+        let solarViewActive = false;
+        let preSolarCamPos: any = null;
+        let preSolarTarget: any = null;
+        let solarTickerId = 0;
+
+        const solarViewpoint = {
+          position: new THREE.Vector3(cameraDistance * 0.35, cameraDistance * 0.85, cameraDistance * 0.35),
+          target: new THREE.Vector3(0, size.y * 0.2, 0),
+        };
+
+        const fmtTotal = (n: number) => {
+          const [int, dec] = n.toFixed(1).split('.');
+          return int.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + dec;
+        };
+
+        const activateSolarView = () => {
+          if (solarViewActive) return;
+          solarViewActive = true;
+          preSolarCamPos = camera.position.clone();
+          preSolarTarget = controls.target.clone();
+          setCameraAnimation(solarViewpoint.position, solarViewpoint.target, 1200);
+          if (hideTooltip) hideTooltip();
+          solarDash.classList.add('is-visible');
+
+          const countStart = performance.now();
+          const countDuration = 1800;
+          const totalTarget = 147283.7;
+          let totalValue = 0;
+          let lastTickTime = performance.now();
+
+          const tickSolar = () => {
+            if (!solarViewActive) return;
+            const now = performance.now();
+            const elapsed = now - countStart;
+            const t = Math.min(elapsed / countDuration, 1);
+            const ease = easeInOutCubic(t);
+
+            if (t < 1) {
+              solarOutputEl.textContent = (12.4 * ease).toFixed(1);
+              solarPerM2El.textContent = (129.2 * ease).toFixed(1);
+              solarEffEl.textContent = (94.2 * ease).toFixed(1);
+              totalValue = totalTarget * ease;
+            } else {
+              const flux = Math.sin(now * 0.0015) * 0.3
+                         + Math.sin(now * 0.004) * 0.2
+                         + Math.sin(now * 0.0008) * 0.1;
+              solarOutputEl.textContent = (12.4 + flux).toFixed(1);
+              solarPerM2El.textContent = (129.2 + flux * 10.42).toFixed(1);
+              const dt = (now - lastTickTime) / 1000;
+              totalValue += 0.15 * dt;
+            }
+
+            lastTickTime = now;
+            solarTotalEl.textContent = fmtTotal(totalValue);
+            solarTickerId = requestAnimationFrame(tickSolar);
+          };
+          solarTickerId = requestAnimationFrame(tickSolar);
+        };
+
+        const deactivateSolarView = () => {
+          if (!solarViewActive) return;
+          solarViewActive = false;
+          cancelAnimationFrame(solarTickerId);
+          solarDash.classList.remove('is-visible');
+          if (preSolarCamPos && preSolarTarget) {
+            setCameraAnimation(preSolarCamPos, preSolarTarget, 1000);
+          }
+          solarOutputEl.textContent = '0.0';
+          solarPerM2El.textContent = '0.0';
+          solarTotalEl.textContent = '0.0';
+          solarEffEl.textContent = '0.0';
+        };
+
+        deactivateSolar = deactivateSolarView;
+
+        const solarCloseHandler = (e: MouseEvent) => {
+          e.stopPropagation();
+          deactivateSolarView();
+        };
+        solarDashClose?.addEventListener('click', solarCloseHandler);
+
+        const raycastRooftop = (clientX: number, clientY: number): boolean => {
+          const rect = viewport.getBoundingClientRect();
+          pointerNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+          pointerNDC.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+          raycaster.setFromCamera(pointerNDC, camera);
+          const hits = raycaster.intersectObject(model, true);
+          return hits.length > 0 && hits[0].point.y > rooftopThresholdY;
+        };
+
+        if (hasHover) {
+          // Desktop: hover tooltip + click to activate solar view
+          const solarTooltip = document.getElementById('solarTooltip') as HTMLDivElement;
+          let tooltipVisible = false;
+
+          const showTooltip = (screenX: number, screenY: number) => {
+            solarTooltip.style.left = `${screenX}px`;
+            solarTooltip.style.top = `${screenY}px`;
+            if (!tooltipVisible) {
+              solarTooltip.classList.add('is-visible');
+              viewport.style.cursor = 'pointer';
+              tooltipVisible = true;
+            }
+          };
+
+          hideTooltip = () => {
+            if (!tooltipVisible) return;
+            solarTooltip.classList.remove('is-visible');
+            viewport.style.cursor = '';
+            tooltipVisible = false;
+          };
+
+          onPointerMove = (e: PointerEvent) => {
+            if (solarViewActive) { hideTooltip(); return; }
+            const rect = viewport.getBoundingClientRect();
+            pointerNDC.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            pointerNDC.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+            raycaster.setFromCamera(pointerNDC, camera);
+            const hits = raycaster.intersectObject(model, true);
+
+            if (hits.length > 0 && hits[0].point.y > rooftopThresholdY) {
+              const projected = hits[0].point.clone().project(camera);
+              const sx = (projected.x * 0.5 + 0.5) * rect.width;
+              const sy = (-projected.y * 0.5 + 0.5) * rect.height;
+              showTooltip(sx, sy);
+              return;
+            }
+
+            hideTooltip();
+          };
+
+          const clickHandler = (e: PointerEvent) => {
+            if (solarViewActive) return;
+            if (raycastRooftop(e.clientX, e.clientY)) {
+              activateSolarView();
+            }
+          };
+
+          viewport.addEventListener('pointermove', onPointerMove);
+          viewport.addEventListener('pointerleave', hideTooltip);
+          viewport.addEventListener('click', clickHandler);
+
+          removeSolarListeners = () => {
+            viewport.removeEventListener('pointermove', onPointerMove);
+            viewport.removeEventListener('pointerleave', hideTooltip);
+            viewport.removeEventListener('click', clickHandler);
+            solarDashClose?.removeEventListener('click', solarCloseHandler);
+          };
+        } else {
+          // Mobile: pulsing hotspot on rooftop + tap to activate solar view
+          const hotspot = document.getElementById('solarHotspot') as HTMLDivElement;
+          const hotspotWorldPos = new THREE.Vector3(0, size.y * 0.42, 0);
+          const projectedHotspot = new THREE.Vector3();
+
+          let lastHotspotX = -1;
+          let lastHotspotY = -1;
+          let hotspotVisible = false;
+
+          updateHotspotPosition = () => {
+            if (solarViewActive) {
+              if (hotspotVisible) {
+                hotspot.classList.remove('is-visible');
+                hotspotVisible = false;
+              }
+              return;
+            }
+            projectedHotspot.copy(hotspotWorldPos).project(camera);
+            if (projectedHotspot.z > 1) {
+              if (hotspotVisible) {
+                hotspot.classList.remove('is-visible');
+                hotspotVisible = false;
+              }
+              return;
+            }
+            const hx = (projectedHotspot.x * 0.5 + 0.5) * cachedVW;
+            const hy = (-projectedHotspot.y * 0.5 + 0.5) * cachedVH;
+            if (Math.abs(hx - lastHotspotX) > 0.5 || Math.abs(hy - lastHotspotY) > 0.5) {
+              hotspot.style.transform = `translate3d(${hx - 5}px, ${hy - 5}px, 0)`;
+              lastHotspotX = hx;
+              lastHotspotY = hy;
+            }
+            if (!hotspotVisible) {
+              hotspot.classList.add('is-visible');
+              hotspotVisible = true;
+            }
+          };
+
+          let touchStart: { x: number; y: number; t: number } | null = null;
+
+          const touchDownHandler = (e: PointerEvent) => {
+            if (e.pointerType !== 'touch') return;
+            touchStart = { x: e.clientX, y: e.clientY, t: performance.now() };
+          };
+          const touchUpHandler = (e: PointerEvent) => {
+            if (e.pointerType !== 'touch' || !touchStart) return;
+            const dx = e.clientX - touchStart.x;
+            const dy = e.clientY - touchStart.y;
+            const moved = Math.sqrt(dx * dx + dy * dy);
+            const elapsed = performance.now() - touchStart.t;
+            touchStart = null;
+
+            if (moved > 12 || elapsed > 350) return;
+
+            if (solarViewActive) return;
+            if (raycastRooftop(e.clientX, e.clientY)) {
+              activateSolarView();
+            }
+          };
+
+          viewport.addEventListener('pointerdown', touchDownHandler);
+          viewport.addEventListener('pointerup', touchUpHandler);
+
+          removeSolarListeners = () => {
+            viewport.removeEventListener('pointerdown', touchDownHandler);
+            viewport.removeEventListener('pointerup', touchUpHandler);
+            solarDashClose?.removeEventListener('click', solarCloseHandler);
+            updateHotspotPosition = null;
+          };
+        }
+        } // end config.hasSolar
+
         // --- Wire interactive controls ---
         const btnWireframe = document.getElementById('btnWireframe') as HTMLButtonElement | null;
         const btnReset = document.getElementById('btnReset') as HTMLButtonElement | null;
 
         let wireframeOn = false;
-        btnWireframe?.addEventListener('click', () => {
+        const wireframeHandler = () => {
           wireframeOn = !wireframeOn;
-          btnWireframe.classList.toggle('is-active', wireframeOn);
-          model.traverse((child) => {
-            if (child instanceof THREE.Mesh) {
-              const mats = Array.isArray(child.material) ? child.material : [child.material];
-              mats.forEach((m) => { m.wireframe = wireframeOn; });
-            }
-          });
-        });
-
-        btnReset?.addEventListener('click', () => {
-          resetAnim = {
-            start: performance.now(),
-            duration: 800,
-            fromPos: camera.position.clone(),
-            fromTarget: controls.target.clone(),
-          };
+          btnWireframe?.classList.toggle('is-active', wireframeOn);
+          for (const child of allMeshes) {
+            const mats = Array.isArray(child.material) ? child.material : [child.material];
+            mats.forEach((m: any) => { m.wireframe = wireframeOn; });
+          }
+        };
+        const resetHandler = () => {
+          if (!initialCamPos || !initialTarget) return;
+          setCameraAnimation(initialCamPos, initialTarget, 800);
+        };
+        btnWireframe?.addEventListener('click', wireframeHandler);
+        btnReset?.addEventListener('click', resetHandler);
+        controlHandlers.push({
+          remove: () => {
+            btnWireframe?.removeEventListener('click', wireframeHandler);
+            btnReset?.removeEventListener('click', resetHandler);
+          },
         });
 
         if (loader) {
@@ -626,32 +1572,81 @@
         }
       }
     );
+    }
+
+    document.getElementById('tabLeventis')?.addEventListener('click', () => loadModel('leventis'));
+    document.getElementById('tabCtf01')?.addEventListener('click', () => loadModel('ctf01'));
+
+    loadModel('leventis');
 
     function easeInOutCubic(t: number): number {
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
+    let animFrameId = 0;
+    let isModelVisible = true;
+
+    const visibilityObs = new IntersectionObserver(([e]) => {
+      isModelVisible = e.isIntersecting;
+      if (isModelVisible && !animFrameId) animate();
+    });
+    visibilityObs.observe(viewport);
+
     function animate() {
-      requestAnimationFrame(animate);
+      if (!isModelVisible) { animFrameId = 0; return; }
+      animFrameId = requestAnimationFrame(animate);
 
       if (resetAnim) {
         const elapsed = performance.now() - resetAnim.start;
         const t = Math.min(elapsed / resetAnim.duration, 1);
         const ease = easeInOutCubic(t);
 
-        camera.position.lerpVectors(resetAnim.fromPos, initialCamPos, ease);
-        controls.target.lerpVectors(resetAnim.fromTarget, initialTarget, ease);
+        camera.position.lerpVectors(resetAnim.fromPos, resetAnim.toPos, ease);
+        controls.target.lerpVectors(resetAnim.fromTarget, resetAnim.toTarget, ease);
 
         if (t >= 1) resetAnim = null;
       }
 
+      if (performance.now() - lastCullUpdate > 500) {
+        updateDistanceCulling();
+        lastCullUpdate = performance.now();
+      }
+
       controls.update();
+      if (updateHotspotPosition) updateHotspotPosition();
+
       renderer.render(scene, camera);
     }
     animate();
 
     const ro = new ResizeObserver(resize);
     ro.observe(viewport);
+
+    const cleanup = () => {
+      if (deactivateSolar) deactivateSolar();
+      if (removeSolarListeners) removeSolarListeners();
+      cancelAnimationFrame(animFrameId);
+      visibilityObs.disconnect();
+      ro.disconnect();
+      if (currentModel) {
+        scene.remove(currentModel);
+        currentModel.traverse((obj: any) => {
+          if (obj.isMesh) {
+            obj.geometry?.dispose();
+            const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+            mats.forEach((m: any) => m?.dispose?.());
+          }
+        });
+      }
+      if (currentGrid) {
+        scene.remove(currentGrid);
+        (currentGrid.material as InstanceType<typeof THREE.Material>)?.dispose?.();
+      }
+      controls.dispose();
+      dracoLoader.dispose();
+      renderer.dispose();
+    };
+    window.addEventListener('pagehide', cleanup, { once: true });
     },
     { rootMargin: '100px' }
   );

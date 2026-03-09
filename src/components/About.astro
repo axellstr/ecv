@@ -1,5 +1,11 @@
 ---
-const partners = ['/images/partners/c4e.png', '/images/partners/sinn.png', '/images/partners/UCY.png', '/images/partners/goc.png', '/images/partners/cyec.png'];
+import { Image } from 'astro:assets';
+import partnerC4e from '../assets/partners/c4e.png';
+import partnerSinn from '../assets/partners/sinn.png';
+import partnerUCY from '../assets/partners/UCY.png';
+import partnerGoc from '../assets/partners/goc.png';
+import partnerCyec from '../assets/partners/cyec.png';
+const partners = [partnerC4e, partnerSinn, partnerUCY, partnerGoc, partnerCyec];
 ---
 
 <section id="about" class="about">
@@ -16,7 +22,7 @@ const partners = ['/images/partners/c4e.png', '/images/partners/sinn.png', '/ima
         <div class="about__carousel-track">
         {[...partners, ...partners].map((src) => (
           <div class="about__carousel-item">
-            <img src={src} alt="" loading="lazy" />
+            <Image src={src} alt="" loading="lazy" width={80} height={40} format="webp" quality={80} />
           </div>
         ))}
       </div>

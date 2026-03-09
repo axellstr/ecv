@@ -1,7 +1,6 @@
 /* ─── Design System ────────────────────────────────────────────────────── */
 
 :root {
-  scroll-behavior: smooth;
   /* Fonts */
   --font-sans: 'Lato', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
@@ -70,7 +69,6 @@ body {
   font-family: var(--font-sans);
   background: var(--c-bg);
   color: var(--c-text);
-  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -104,90 +102,15 @@ main {
   outline-offset: 2px;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  :root { scroll-behavior: smooth; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
-/* ─── Layout ───────────────────────────────────────────────────────────── */
-
-.flex { display: flex; }
-.grid { display: grid; }
-.block { display: block; }
-.inline { display: inline; }
-.hidden { display: none; }
-
-.flex-col { flex-direction: column; }
-.flex-wrap { flex-wrap: wrap; }
-.items-center { align-items: center; }
-.items-end { align-items: flex-end; }
-.items-start { align-items: flex-start; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.justify-end { justify-content: flex-end; }
-.gap-1 { gap: var(--s-1); }
-.gap-2 { gap: var(--s-2); }
-.gap-4 { gap: var(--s-4); }
-.gap-6 { gap: var(--s-6); }
-.gap-8 { gap: var(--s-8); }
-
-.w-full { width: 100%; }
-.min-h-screen { min-height: 100vh; }
-
-/* ─── Spacing ──────────────────────────────────────────────────────────── */
-
-.p-2 { padding: var(--s-2); }
-.p-4 { padding: var(--s-4); }
-.p-6 { padding: var(--s-6); }
-.p-8 { padding: var(--s-8); }
-
-.m-0 { margin: 0; }
-.m-auto { margin: auto; }
-.mt-2 { margin-top: var(--s-2); }
-.mt-4 { margin-top: var(--s-4); }
-.mb-2 { margin-bottom: var(--s-2); }
-.mb-4 { margin-bottom: var(--s-4); }
-.mx-auto { margin-left: auto; margin-right: auto; }
-
-/* ─── Typography ───────────────────────────────────────────────────────── */
-
-.text-xs { font-size: var(--text-xs); }
-.text-sm { font-size: var(--text-sm); }
-.text-base { font-size: var(--text-base); }
-.text-lg { font-size: var(--text-lg); }
-.text-xl { font-size: var(--text-xl); }
-.text-2xl { font-size: var(--text-2xl); }
-.text-3xl { font-size: var(--text-3xl); }
-.text-4xl { font-size: var(--text-4xl); }
-
-.font-sans { font-family: var(--font-sans); }
-.font-heading { font-family: var(--font-heading); }
-
-.font-light { font-weight: 300; }
-.font-normal { font-weight: 400; }
-.font-medium { font-weight: 500; }
-.font-semibold { font-weight: 600; }
-.font-bold { font-weight: 700; }
-
-.text-left { text-align: left; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-
-.text-muted { color: var(--c-text-muted); }
-.leading-tight { line-height: 1.25; }
-.leading-normal { line-height: 1.5; }
-.leading-relaxed { line-height: 1.75; }
-
-/* ─── Max-width containers ─────────────────────────────────────────────── */
-
-.max-w-sm { max-width: 24rem; }
-.max-w-md { max-width: 28rem; }
-.max-w-lg { max-width: 32rem; }
-.max-w-xl { max-width: 36rem; }
-.max-w-2xl { max-width: 42rem; }
-.max-w-4xl { max-width: 56rem; }
-.max-w-6xl { max-width: 76rem; }
