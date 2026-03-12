@@ -25,6 +25,14 @@
     overflow: hidden;
   }
 
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 40% at 50% 100%, var(--spotlight-accent), transparent);
+    pointer-events: none;
+  }
+
   .hero__visual {
     position: absolute;
     inset: 0;

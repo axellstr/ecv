@@ -5,21 +5,32 @@
   --font-sans: 'Lato', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
 
-  /* Colors — core palette */
-  --c-bg: #060606;
-  --c-surface: rgb(0, 0, 0);
-  --c-surface-elevated: rgba(255, 255, 255, 0.03);
-  --c-border: rgba(255, 255, 255, 0.08);
-  --c-border-hover: rgba(255, 255, 255, 0.16);
+  /* Colors — surface hierarchy (deepest → highest) */
+  --c-bg: #050505;
+  --c-surface: #0a0a0a;
+  --c-surface-elevated: #111111;
+  --c-surface-overlay: #1a1a1a;
+  --bg-void: #000000;
+
+  /* Colors — text */
   --c-text: #ffffff;
   --c-text-sub: rgba(200, 200, 200, 0.9);
   --c-text-muted: rgba(160, 160, 160, 0.85);
   --c-accent: rgb(255, 255, 255);
-  --bg-void: #000000;
+  --text-muted: var(--c-text-muted);
+
+  /* Colors — borders & structural lines */
+  --c-border: rgba(255, 255, 255, 0.05);
+  --c-border-hover: rgba(255, 255, 255, 0.12);
+
+  /* Colors — accent */
   --accent-primary: #d9ff00;
   --accent-primary-hover: #e4ff3a;
   --accent-glow: rgba(217, 255, 0, 0.12);
-  --text-muted: var(--c-text-muted);
+
+  /* Static lighting */
+  --spotlight-accent: rgba(217, 255, 0, 0.02);
+  --spotlight-neutral: rgba(255, 255, 255, 0.015);
 
   /* Spacing (4px base, extended) */
   --s-0: 0;
