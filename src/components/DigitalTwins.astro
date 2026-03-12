@@ -68,7 +68,7 @@ import imgVirtual from '../assets/digital-twins/virtual.png';
 <style>
   .digital-twins {
     min-height: 100vh;
-    padding: var(--s-8);
+    padding: var(--s-16) var(--s-8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,7 +77,13 @@ import imgVirtual from '../assets/digital-twins/virtual.png';
 
   @media (max-width: 480px) {
     .digital-twins {
-      padding: var(--s-6) var(--s-5);
+      padding: var(--s-12) var(--s-5);
+    }
+  }
+
+  @media (min-width: 769px) {
+    .digital-twins {
+      padding: var(--s-24) var(--s-8);
     }
   }
 
@@ -90,7 +96,6 @@ import imgVirtual from '../assets/digital-twins/virtual.png';
   @media (min-width: 769px) {
     .digital-twins__inner {
       max-width: 66rem;
-      text-align: left;
     }
   }
 
@@ -108,7 +113,7 @@ import imgVirtual from '../assets/digital-twins/virtual.png';
     .digital-twins__title {
       font-size: clamp(3rem, 6vw, 4.5rem);
       letter-spacing: -0.02em;
-      margin-bottom: var(--s-8);
+      margin-bottom: var(--s-10);
     }
   }
 
@@ -117,63 +122,72 @@ import imgVirtual from '../assets/digital-twins/virtual.png';
     font-size: var(--text-lg);
     font-weight: 400;
     line-height: 1.6;
-    letter-spacing: 0.01em;
     color: var(--c-text-muted);
-    max-width: 42ch;
   }
 
   @media (min-width: 769px) {
     .digital-twins__description {
       font-size: var(--text-2xl);
-      line-height: 1.75;
+      line-height: 1.55;
       color: var(--c-text-sub);
-      margin-bottom: var(--s-12);
-      max-width: 60ch;
+      margin-bottom: var(--s-16);
+      max-width: 44rem;
     }
   }
 
   .digital-twins__features {
     display: grid;
-    gap: var(--s-6);
+    gap: var(--s-5);
     margin-bottom: var(--s-10);
   }
 
   @media (min-width: 769px) {
     .digital-twins__features {
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--s-8);
+      gap: var(--s-6);
       margin-bottom: var(--s-12);
     }
   }
 
   .digital-twins__feature {
-    padding: var(--s-5);
-    background: var(--c-surface);
-    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    background: var(--c-surface-elevated);
+    border-radius: var(--r-xl);
     border: 1px solid var(--c-border);
+    transition:
+      border-color var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
+  }
+
+  .digital-twins__feature:hover {
+    border-color: var(--c-border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   }
 
   .digital-twins__feature-title {
     font-family: var(--font-heading);
     font-size: var(--text-xl);
     font-weight: 500;
-    margin: 0 0 var(--s-2);
+    margin: 0 0 var(--s-3);
     color: var(--c-text);
+    letter-spacing: -0.01em;
   }
 
   .digital-twins__feature-desc {
     margin: 0;
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     color: var(--c-text-muted);
-    line-height: 1.6;
+    line-height: 1.65;
   }
 
   /* ── Comparison slider ──────────────────────────────────────────────── */
 
   .comparison {
     position: relative;
-    margin-top: var(--s-8);
-    border-radius: var(--r-lg);
+    margin-top: var(--s-10);
+    border-radius: var(--r-xl);
     overflow: hidden;
     border: 1px solid var(--c-border);
     cursor: col-resize;
@@ -182,6 +196,11 @@ import imgVirtual from '../assets/digital-twins/virtual.png';
     touch-action: none;
     -webkit-touch-callout: none;
     aspect-ratio: 16 / 9;
+    transition: border-color var(--duration-normal) var(--ease-out);
+  }
+
+  .comparison:hover {
+    border-color: var(--c-border-hover);
   }
 
   @media (max-width: 768px) {

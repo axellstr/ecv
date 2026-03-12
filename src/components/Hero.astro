@@ -22,14 +22,9 @@
   .hero {
     position: relative;
     min-height: 100vh;
-  }
-
-  .hero {
     overflow: hidden;
   }
 
-
-  /* Desktop: visual fills hero, content sits bottom-right */
   .hero__visual {
     position: absolute;
     inset: 0;
@@ -51,7 +46,6 @@
   }
 
   .hero__image-wrap :global(svg) {
-    /* Desktop: pin to bottom-left so left side of illustration is visible */
     position: absolute;
     left: 0;
     bottom: 0;
@@ -60,7 +54,7 @@
     min-width: 100%;
     min-height: 100%;
     object-fit: contain;
-    animation: hero-svg-reveal 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: hero-svg-reveal 2s var(--ease-out) forwards;
   }
 
   @media (max-width: 768px) {
@@ -68,7 +62,6 @@
       position: relative;
       left: auto;
       bottom: auto;
-      /* Center; render larger to avoid blur */
       width: 160%;
       height: 160%;
       min-width: 160%;
@@ -94,15 +87,13 @@
   }
 
   @keyframes hero-part-reveal {
-    to {
-      opacity: 1;
-    }
+    to { opacity: 1; }
   }
 
   .hero__content {
     position: absolute;
-    bottom: var(--s-8);
-    right: var(--s-8);
+    bottom: var(--s-12);
+    right: var(--s-10);
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -113,7 +104,7 @@
 
   @media (max-width: 768px) {
     .hero__content {
-      bottom: var(--s-8);
+      bottom: var(--s-10);
       left: var(--s-5);
       right: var(--s-5);
       padding: 0;
@@ -125,11 +116,13 @@
 
   .hero__eyebrow {
     margin: 0;
+    font-family: var(--font-heading);
     font-size: var(--text-sm);
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--c-text-muted);
+    letter-spacing: 0.14em;
+    color: var(--accent-primary);
+    opacity: 0.85;
   }
 
   @media (max-width: 768px) {
@@ -142,10 +135,10 @@
     font-family: var(--font-heading);
     font-size: clamp(1.625rem, 5vw, 2.75rem);
     font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    margin: 0;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: var(--c-text);
+    text-shadow: 0 2px 40px rgba(0, 0, 0, 0.5);
   }
 
   @media (max-width: 768px) {
@@ -159,6 +152,7 @@
     gap: var(--s-4);
     flex-wrap: wrap;
     justify-content: flex-end;
+    padding-top: var(--s-2);
   }
 
   @media (max-width: 768px) {
@@ -172,20 +166,22 @@
     align-items: center;
     justify-content: center;
     padding: var(--s-3) var(--s-6);
-    font-family: var(--font-sans);
-    font-size: var(--text-base);
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
     font-weight: 500;
+    letter-spacing: 0.03em;
     text-decoration: none;
-    border-radius: var(--r-md);
-    transition: opacity 0.2s, background 0.2s, transform 0.15s;
-  }
-
-  .hero__btn:hover {
-    opacity: 0.9;
+    border-radius: var(--r-lg);
+    transition:
+      background var(--duration-normal) var(--ease-out),
+      color var(--duration-normal) var(--ease-out),
+      border-color var(--duration-normal) var(--ease-out),
+      transform var(--duration-fast) ease,
+      box-shadow var(--duration-normal) var(--ease-out);
   }
 
   .hero__btn:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
   }
 
   .hero__btn:focus-visible {
@@ -194,19 +190,35 @@
   }
 
   .hero__btn--primary {
-    background: var(--c-accent);
-    color: var(--c-bg);
+    background: var(--accent-primary);
+    color: #0a0a0a;
+    border: 1px solid var(--accent-primary);
+  }
+
+  .hero__btn--primary:hover {
+    background: var(--accent-primary-hover);
+    border-color: var(--accent-primary-hover);
+    box-shadow: 0 0 24px rgba(217, 255, 0, 0.2);
+    transform: translateY(-1px);
   }
 
   .hero__btn--secondary {
-    background: var(--c-surface);
+    background: rgba(255, 255, 255, 0.06);
     color: var(--c-text);
-    border: 1px solid var(--c-border);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .hero__btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
   }
 
   @media (max-width: 480px) {
     .hero__btn {
-      font-size: var(--text-sm);
+      font-size: var(--text-xs);
       padding: var(--s-3) var(--s-5);
     }
   }

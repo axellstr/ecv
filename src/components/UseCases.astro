@@ -103,7 +103,7 @@ const useCases = [
 <style>
   .use-cases {
     min-height: 100vh;
-    padding: var(--s-8) var(--s-6);
+    padding: var(--s-16) var(--s-6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -111,7 +111,13 @@ const useCases = [
 
   @media (max-width: 480px) {
     .use-cases {
-      padding: var(--s-6) var(--s-5);
+      padding: var(--s-12) var(--s-5);
+    }
+  }
+
+  @media (min-width: 769px) {
+    .use-cases {
+      padding: var(--s-24) var(--s-8);
     }
   }
 
@@ -144,19 +150,17 @@ const useCases = [
     font-size: var(--text-lg);
     font-weight: 400;
     line-height: 1.6;
-    letter-spacing: 0.01em;
     color: var(--c-text-muted);
     text-align: left;
-    max-width: 42ch;
   }
 
   @media (min-width: 769px) {
     .use-cases__subtitle {
       font-size: var(--text-2xl);
-      line-height: 1.75;
+      line-height: 1.55;
       color: var(--c-text-sub);
-      margin-bottom: var(--s-12);
-      max-width: 60ch;
+      margin-bottom: var(--s-16);
+      max-width: 44rem;
     }
   }
 
@@ -164,7 +168,7 @@ const useCases = [
 
   .bento {
     display: grid;
-    gap: clamp(0.75rem, 1.5vw, 1rem);
+    gap: clamp(0.625rem, 1.2vw, 0.875rem);
     grid-template-columns: 1fr;
   }
 
@@ -193,18 +197,21 @@ const useCases = [
     position: relative;
     overflow: hidden;
     padding: clamp(1.5rem, 3vw, 2.25rem);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 1rem;
+    background: var(--c-surface-elevated);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-xl);
     display: flex;
     flex-direction: column;
     gap: var(--s-3);
-    transition: border-color 0.35s ease, transform 0.35s ease;
+    transition:
+      border-color var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
     will-change: transform;
   }
 
   .bento__card:hover {
-    border-color: color-mix(in srgb, var(--card-accent) 35%, transparent);
+    border-color: color-mix(in srgb, var(--card-accent) 30%, transparent);
+    transform: translateY(-2px);
   }
 
   .bento__glow {
@@ -213,10 +220,10 @@ const useCases = [
     opacity: 0;
     background: radial-gradient(
       ellipse at 30% 0%,
-      color-mix(in srgb, var(--card-accent) 8%, transparent),
+      color-mix(in srgb, var(--card-accent) 6%, transparent),
       transparent 70%
     );
-    transition: opacity 0.45s ease;
+    transition: opacity 0.5s var(--ease-out);
     pointer-events: none;
   }
 
@@ -239,7 +246,10 @@ const useCases = [
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity var(--duration-normal) var(--ease-out),
+      visibility var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
   }
 
   .bento__card.is-expanded .bento__content {
@@ -254,7 +264,7 @@ const useCases = [
     width: 2rem;
     height: 2rem;
     flex-shrink: 0;
-    margin-bottom: var(--s-1);
+    margin-bottom: var(--s-2);
   }
 
   .bento__title {
@@ -268,9 +278,9 @@ const useCases = [
 
   .bento__desc {
     margin: 0;
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     color: var(--c-text-muted);
-    line-height: 1.6;
+    line-height: 1.65;
   }
 
   /* ── Expandable List ────────────────────────────────────────── */
@@ -281,12 +291,15 @@ const useCases = [
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.625rem;
+    gap: var(--s-3);
     opacity: 0;
     visibility: hidden;
     transform: translateY(6px);
     pointer-events: none;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity var(--duration-normal) var(--ease-out),
+      visibility var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
   }
 
   .bento__card.is-expanded .bento__list {
@@ -294,14 +307,14 @@ const useCases = [
     visibility: visible;
     transform: translateY(0);
     pointer-events: auto;
-    transition-delay: 0.08s;
+    transition-delay: 0.06s;
   }
 
   .bento__list-item {
-    font-size: var(--text-base);
-    color: var(--c-text-muted);
-    line-height: 1.4;
-    padding-left: 1.125rem;
+    font-size: var(--text-sm);
+    color: var(--c-text-sub);
+    line-height: 1.45;
+    padding-left: 1.25rem;
     position: relative;
   }
 
@@ -314,7 +327,7 @@ const useCases = [
     height: 5px;
     border-radius: 50%;
     background: var(--card-accent);
-    opacity: 0.7;
+    opacity: 0.6;
   }
 
   /* ── Toggle Button ──────────────────────────────────────────── */
@@ -326,21 +339,24 @@ const useCases = [
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    transition:
+      background var(--duration-normal) var(--ease-out),
+      border-color var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-spring);
     padding: 0;
   }
 
   .bento__toggle:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: color-mix(in srgb, var(--card-accent) 50%, transparent);
-    transform: scale(1.08);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: color-mix(in srgb, var(--card-accent) 45%, transparent);
+    transform: scale(1.1);
   }
 
   .bento__toggle-icon {
@@ -387,7 +403,7 @@ const useCases = [
 
     .bento__card--1 .bento__desc,
     .bento__card--2 .bento__desc {
-      font-size: var(--text-lg);
+      font-size: var(--text-base);
     }
 
     .bento__card--4 .bento__title {

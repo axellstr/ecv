@@ -75,7 +75,7 @@ const services = [
 <style>
   .services {
     min-height: 100vh;
-    padding: var(--s-8);
+    padding: var(--s-16) var(--s-8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,7 +84,13 @@ const services = [
 
   @media (max-width: 480px) {
     .services {
-      padding: var(--s-6) var(--s-5);
+      padding: var(--s-12) var(--s-5);
+    }
+  }
+
+  @media (min-width: 769px) {
+    .services {
+      padding: var(--s-24) var(--s-8);
     }
   }
 
@@ -99,7 +105,6 @@ const services = [
   @media (min-width: 769px) {
     .services__inner {
       max-width: 66rem;
-      text-align: left;
     }
   }
 
@@ -117,7 +122,7 @@ const services = [
     .services__title {
       font-size: clamp(3rem, 6vw, 4.5rem);
       letter-spacing: -0.02em;
-      margin-bottom: var(--s-8);
+      margin-bottom: var(--s-10);
     }
   }
 
@@ -126,18 +131,16 @@ const services = [
     font-size: var(--text-lg);
     font-weight: 400;
     line-height: 1.6;
-    letter-spacing: 0.01em;
     color: var(--c-text-muted);
-    max-width: 42ch;
   }
 
   @media (min-width: 769px) {
     .services__description {
       font-size: var(--text-2xl);
-      line-height: 1.75;
+      line-height: 1.55;
       color: var(--c-text-sub);
-      margin-bottom: var(--s-12);
-      max-width: 60ch;
+      margin-bottom: var(--s-16);
+      max-width: 44rem;
     }
   }
 
@@ -147,13 +150,13 @@ const services = [
     padding: 0;
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--s-8);
+    gap: var(--s-6);
   }
 
   @media (min-width: 769px) {
     .services__list {
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--s-10);
+      gap: var(--s-6);
     }
   }
 
@@ -167,16 +170,21 @@ const services = [
     display: flex;
     flex-direction: column;
     gap: var(--s-4);
-    padding: var(--s-6);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: var(--r-lg);
+    padding: var(--s-5);
+    background: var(--c-surface-elevated);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-xl);
     overflow: hidden;
-    transition: border-color 0.3s ease;
+    transition:
+      border-color var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
   }
 
   .services__item:hover {
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: var(--c-border-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
   }
 
   @media (max-width: 768px) {
@@ -196,7 +204,7 @@ const services = [
     flex-shrink: 0;
     width: 100%;
     aspect-ratio: 4 / 5;
-    border-radius: var(--r-md);
+    border-radius: var(--r-lg);
     overflow: hidden;
     background: var(--c-bg);
   }
@@ -212,6 +220,11 @@ const services = [
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .services__item:hover .services__item-image img {
+    transform: scale(1.03);
   }
 
   .services__item-image-placeholder {
@@ -226,6 +239,7 @@ const services = [
     flex-direction: column;
     min-width: 0;
     text-align: left;
+    padding-top: var(--s-1);
   }
 
   .services__item-title {
@@ -234,12 +248,13 @@ const services = [
     font-weight: 500;
     margin: 0 0 var(--s-3);
     color: var(--c-text);
+    letter-spacing: -0.01em;
   }
 
   .services__item-desc {
     margin: 0;
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     color: var(--c-text-muted);
-    line-height: 1.6;
+    line-height: 1.65;
   }
 </style>

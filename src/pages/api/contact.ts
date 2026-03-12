@@ -34,7 +34,7 @@ export async function POST({ request }: { request: Request }) {
     <p><strong>Email:</strong> ${escapeHtml(String(email))}</p>
     <p><strong>Company:</strong> ${escapeHtml(String(company))}</p>
     <p><strong>Phone:</strong> ${escapeHtml(String(phone))}</p>
-    <p><strong>Subject:</strong> ${escapeHtml(subjectText)}</p>
+    <p><strong>Subject:</strong> ${escapeHtml(String(subjectText))}</p>
     <p><strong>Message:</strong></p>
     <pre>${escapeHtml(String(message))}</pre>
   `;
