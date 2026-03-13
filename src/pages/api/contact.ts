@@ -1,5 +1,21 @@
 export const prerender = false;
 
+const corsHeaders: Record<string, string> = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      ...corsHeaders,
+      "Access-Control-Max-Age": "86400",
+    },
+  });
+}
+
 export async function POST({ request }: { request: Request }) {
   const formData = await request.formData();
   const name = formData.get("name");
@@ -12,7 +28,7 @@ export async function POST({ request }: { request: Request }) {
   if (!name || !email || !subject || !message) {
     return new Response(JSON.stringify({ ok: false, error: "Missing fields" }), {
       status: 400,
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   }
 
@@ -50,13 +66,13 @@ export async function POST({ request }: { request: Request }) {
   if (error) {
     return new Response(JSON.stringify({ ok: false, error: error.message }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   }
 
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...corsHeaders },
   });
 }
 
